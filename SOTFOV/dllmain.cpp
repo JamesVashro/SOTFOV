@@ -27,6 +27,7 @@ auto hooking = std::make_unique<frick::Hooking>();
 auto vars = std::make_unique<frick::Vars>();
 
 void CleanupHeldItemFovs() {
+    frick::vars->output = "Cleaning up fovs";
     if (frick::vars->HeldItem) {
         if (frick::vars->HeldItemName.find("Spyglass") != -1 || frick::vars->HeldItemName.find("spyglass") != -1) {
             ASpyglass* spyGlass = (ASpyglass*)frick::vars->HeldItem;
@@ -45,6 +46,9 @@ void CleanupHeldItemFovs() {
         weapon = nullptr;
         spyGlass = nullptr;
     }
+
+    frick::vars->output = "Done cleaning up fovs";
+
 }
 
 void CleanupAndShutdown(HMODULE hModule) {
@@ -85,10 +89,10 @@ void make_minidump(EXCEPTION_POINTERS* e)
         file << "Weapon                         " << weapon << "\n";
         file << "Current Output:                " << frick::vars->output << "\n";
         file << "Performance Mode:              " << frick::vars->performance << "\n";
+        file << "Currently Held Item:           " << frick::vars->HeldItemName << "\n";
     }
 
     file.close();
-
     return;
 }
 
@@ -154,7 +158,7 @@ void doThing(HMODULE hModule) {
         printf("Dereferenced World: %p\n", world);
     }
 
-    float fasd = 0.f;
+
     std::string attachedToName = "";
     while (!GetAsyncKeyState(VK_DELETE) & 1) {
         if (!frick::vars->localPlayer->PlayerController)
@@ -178,7 +182,8 @@ void doThing(HMODULE hModule) {
                 frick::vars->AACharacter = nullptr;
 
             frick::vars->output = "Player waiting, isOnMap = false";
-
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            continue;
         }
 
         if (!frick::vars->localPlayer->PlayerController->Character)
@@ -196,21 +201,31 @@ void doThing(HMODULE hModule) {
         if (!frick::vars->AACharacter)
             continue;
 
+        if (!frick::vars->AACharacter->WieldedItemComponent)
+            continue;
+
         frick::vars->output = "Getting held Item";
         UWieldedItemComponent* item = (UWieldedItemComponent*)frick::vars->AACharacter->WieldedItemComponent;
         frick::vars->output = "Got Held Item";
 
         if (frick::vars->isOnCannon)
             goto CheckMounted;
-        
-        if (frick::vars->AACharacter->CameraFOVWhenSprinting != frick::vars->sprintingFOV)
-            frick::vars->AACharacter->CameraFOVWhenSprinting = frick::vars->sprintingFOV;
 
-        if (!item)
+        frick::vars->output = "Checking sprinting FOV";
+        if (frick::vars->AACharacter->CameraFOVWhenSprinting != frick::vars->sprintingFOV) {
+            frick::vars->output = "Setting sprinting FOV";
+            frick::vars->AACharacter->CameraFOVWhenSprinting = frick::vars->sprintingFOV;
+        }
+
+        if (!item) {
+            frick::vars->output = "No item, going to checkmounted";
             goto CheckMounted;
+        }
 
 
         if (!item->CurrentlyWieldedItem) {
+            frick::vars->output = "No item->CurrentlyWieldedItem, going to CleanupFOVS and check mounted";
+
             CleanupHeldItemFovs();
             ADSing = false;
             goto CheckMounted;
@@ -218,10 +233,14 @@ void doThing(HMODULE hModule) {
         
         
         if (!frick::vars->HeldItem) {
+            frick::vars->output = "!vars->Held Item... setting";
+
             if (item->CurrentlyWieldedItem) {
                 frick::vars->HeldItem = item->CurrentlyWieldedItem;
                 frick::vars->HeldItemName = item->CurrentlyWieldedItem->GetName();
             }
+
+            frick::vars->output = "Set held item";
         }
 
         if (frick::vars->HeldItemName.find("Spyglass") != -1 || frick::vars->HeldItemName.find("spyglass") != -1 || frick::vars->HeldItemName.find("telescope") != -1 || frick::vars->HeldItemName.find("Telescope") != -1) {
@@ -234,8 +253,6 @@ void doThing(HMODULE hModule) {
                 continue;
 
             spyGlass->InAimFOV = frick::vars->spyGlassFOV;
-
-
             frick::vars->output = "Set aim fov";
 
             if (spyGlass->IsAiming) {
