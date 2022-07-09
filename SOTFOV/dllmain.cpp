@@ -165,6 +165,18 @@ void doThing(HMODULE hModule) {
             frick::vars->isOnMap = false;
             frick::vars->isOnCannon = false;
 
+            if (weapon)
+                weapon = nullptr;
+
+            if (spyGlass)
+                spyGlass = nullptr;
+
+            if (frick::vars->playerCharacter)
+                frick::vars->playerCharacter = nullptr;
+
+            if (frick::vars->AACharacter)
+                frick::vars->AACharacter = nullptr;
+
             frick::vars->output = "Player waiting, isOnMap = false";
 
         }
@@ -184,7 +196,9 @@ void doThing(HMODULE hModule) {
         if (!frick::vars->AACharacter)
             continue;
 
+        frick::vars->output = "Getting held Item";
         UWieldedItemComponent* item = (UWieldedItemComponent*)frick::vars->AACharacter->WieldedItemComponent;
+        frick::vars->output = "Got Held Item";
 
         if (frick::vars->isOnCannon)
             goto CheckMounted;
