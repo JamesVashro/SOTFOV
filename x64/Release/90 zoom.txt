@@ -1,0 +1,9 @@
+92.000000 Normal
+40.000000 Sniper
+70.000000 Pistol
+106.000000 Sprinting
+80.000000 Blunder
+43.000000 Spyglass
+75.000000 CannonADS
+90.000000 Cannon
+0 MapTable
