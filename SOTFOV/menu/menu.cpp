@@ -211,7 +211,9 @@ namespace frick {
             ImGui::Text("FOV");
             ImGui::SameLine(125);
             if (ImGui::SliderFloat("##FOV", &vars->FOV, 0.f, 180.f, 1)) {
-                   
+                if ((int)vars->FOV - 13 == 60 || (int)vars->FOV - 13 == 30 || (int)vars->FOV - 13 == 17 || (int)vars->FOV - 13 == 70 || (int)vars->FOV - 13 == 90)
+                    vars->FOV++;
+
                 vars->playerCharacter->SetTargetFOV(vars->AACharacter, vars->FOV);
 
                 if (vars->linked) {
@@ -235,25 +237,46 @@ namespace frick {
             if (ImGui::CollapsingHeader("Extras")) {
                 ImGui::Text("Sprinting FOV");
                 ImGui::SameLine(125);
-                ImGui::SliderFloat("##sprintingFOV", &vars->sprintingFOV, 0.f, 180.f, 1);
+                if (ImGui::SliderFloat("##sprintingFOV", &vars->sprintingFOV, 0.f, 180.f, 1)) {
+                    if ((int)vars->sprintingFOV - 13 == 60 || (int)vars->sprintingFOV - 13 == 30 || (int)vars->sprintingFOV - 13 == 17 || (int)vars->sprintingFOV - 13 == 70 || (int)vars->sprintingFOV - 13 == 73 || (int)vars->sprintingFOV - 13 == 78 || (int)vars->sprintingFOV - 13 == 90)
+                        vars->sprintingFOV++;
+                }
+
                 ImGui::Text("Sniper FOV");
                 ImGui::SameLine(125);
-                ImGui::SliderFloat("##sniperFOV", &vars->sniperFOV, 0.f, 180.f, 1);
+                if (ImGui::SliderFloat("##sniperFOV", &vars->sniperFOV, 0.f, 180.f, 1)) {
+                    if ((int)vars->sniperFOV - 13 == 60 || (int)vars->sniperFOV - 13 == 30 || (int)vars->sniperFOV - 13 == 17 || (int)vars->sniperFOV - 13 == 70 || (int)vars->sniperFOV - 13 == 73 || (int)vars->sniperFOV - 13 == 78 || (int)vars->sniperFOV - 13 == 90)
+                        vars->sniperFOV++;
+                }
                 ImGui::Text("Pistol FOV");
                 ImGui::SameLine(125);
-                ImGui::SliderFloat("##pistolFOV", &vars->pistolFOV, 0.f, 180.f, 1);
+                if (ImGui::SliderFloat("##pistolFOV", &vars->pistolFOV, 0.f, 180.f, 1)) {
+                    if ((int)vars->pistolFOV - 13 == 60 || (int)vars->pistolFOV - 13 == 30 || (int)vars->pistolFOV - 13 == 17 || (int)vars->pistolFOV - 13 == 70 || (int)vars->pistolFOV - 13 == 73 || (int)vars->pistolFOV - 13 == 78 || (int)vars->pistolFOV - 13 == 90)
+                        vars->pistolFOV++;
+                }
                 ImGui::Text("Blunder FOV");
                 ImGui::SameLine(125);
-                ImGui::SliderFloat("##blunderFOV", &vars->blunderFOV, 0.f, 180.f, 1);
+                if (ImGui::SliderFloat("##blunderFOV", &vars->blunderFOV, 0.f, 180.f, 1)) {
+                    if ((int)vars->blunderFOV - 13 == 60 || (int)vars->blunderFOV - 13 == 30 || (int)vars->blunderFOV - 13 == 17 || (int)vars->blunderFOV - 13 == 70 || (int)vars->blunderFOV - 13 == 73 || (int)vars->blunderFOV - 13 == 78 || (int)vars->blunderFOV - 13 == 90)
+                        vars->blunderFOV++;
+                }
                 ImGui::Text("Spyglass FOV");
                 ImGui::SameLine(125);
-                ImGui::SliderFloat("##spyGlassFOV", &vars->spyGlassFOV, 0.f, 180.f, 1);
+                if (ImGui::SliderFloat("##spyGlassFOV", &vars->spyGlassFOV, 0.f, 180.f, 1)) {
+                    if ((int)vars->spyGlassFOV - 13 == 60 || (int)vars->spyGlassFOV - 13 == 30 || (int)vars->spyGlassFOV - 13 == 17 || (int)vars->spyGlassFOV - 13 == 70 || (int)vars->spyGlassFOV - 13 == 73 || (int)vars->spyGlassFOV - 13 == 78 || (int)vars->spyGlassFOV - 13 == 90)
+                        vars->spyGlassFOV++;
+                }
                 ImGui::Text("Cannon FOV (ADS)");
                 ImGui::SameLine(125);
-                ImGui::SliderFloat("##cannonFOVads", &vars->cannonFOVads, 0.f, 180.f, 1);
+                if (ImGui::SliderFloat("##cannonFOVads", &vars->cannonFOVads, 0.f, 180.f, 1)) {
+                    if ((int)vars->cannonFOVads - 13 == 60 || (int)vars->cannonFOVads - 13 == 30 || (int)vars->cannonFOVads - 13 == 17 || (int)vars->cannonFOVads - 13 == 70 || (int)vars->cannonFOVads - 13 == 73 || (int)vars->cannonFOVads - 13 == 78 || (int)vars->cannonFOVads - 13 == 90)
+                        vars->cannonFOVads++;
+                }
                 ImGui::Text("Cannon FOV");
                 ImGui::SameLine(125);
                 if (ImGui::SliderFloat("##cannonFOV", &vars->cannonFOV, 0.f, 180.f, 1)) {
+                    if ((int)vars->cannonFOV - 13 == 60 || (int)vars->cannonFOV - 13 == 30 || (int)vars->cannonFOV - 13 == 17 || (int)vars->cannonFOV - 13 == 70 || (int)vars->cannonFOV - 13 == 73 || (int)vars->cannonFOV - 13 == 78 || (int)vars->cannonFOV - 13 == 90)
+                        vars->cannonFOV++;
                     if (vars->isOnCannon)
                         vars->playerCharacter->SetTargetFOV(vars->AACharacter, vars->cannonFOV);
                 }

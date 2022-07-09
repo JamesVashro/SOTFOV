@@ -63,7 +63,7 @@ void CleanupAndShutdown(HMODULE hModule) {
 
     CleanupHeldItemFovs();
 
-   
+    
 
     renderer.reset();
     hooking.reset();
@@ -161,171 +161,27 @@ void doThing(HMODULE hModule) {
 
     std::string attachedToName = "";
     while (!GetAsyncKeyState(VK_DELETE) & 1) {
+        if (frick::vars->performance)
+            std::this_thread::sleep_for(std::chrono::milliseconds(5));
+
         if (!frick::vars->localPlayer->PlayerController)
             continue;
-        
-        frick::vars->output = "Checking if player is waiting";
-        if (frick::vars->localPlayer->PlayerController->isWaiting > 2) {
-            frick::vars->isOnMap = false;
-            frick::vars->isOnCannon = false;
-
-            if (weapon)
-                weapon = nullptr;
-
-            if (spyGlass)
-                spyGlass = nullptr;
-
-            if (frick::vars->playerCharacter)
-                frick::vars->playerCharacter = nullptr;
-
-            if (frick::vars->AACharacter)
-                frick::vars->AACharacter = nullptr;
-
-            frick::vars->output = "Player waiting, isOnMap = false";
-            std::this_thread::sleep_for(std::chrono::milliseconds(50));
-            continue;
-        }
 
         if (!frick::vars->localPlayer->PlayerController->Character)
             continue;
-
-        if (frick::vars->playerCharacter != frick::vars->localPlayer->PlayerController->Character)
-            frick::vars->playerCharacter = frick::vars->localPlayer->PlayerController->Character;
+        
+        frick::vars->playerCharacter = frick::vars->localPlayer->PlayerController->Character;
 
         if (!frick::vars->playerCharacter)
             continue;
-
-        if (frick::vars->AACharacter != frick::vars->playerCharacter)
-            frick::vars->AACharacter = (AAthenaPlayerCharacter*)frick::vars->playerCharacter;
+        
+        frick::vars->AACharacter = (AAthenaPlayerCharacter*)frick::vars->playerCharacter;
 
         if (!frick::vars->AACharacter)
             continue;
 
-        if (!frick::vars->AACharacter->WieldedItemComponent)
-            continue;
-
-        frick::vars->output = "Getting held Item";
-        UWieldedItemComponent* item = (UWieldedItemComponent*)frick::vars->AACharacter->WieldedItemComponent;
-        frick::vars->output = "Got Held Item";
-
-        if (frick::vars->isOnCannon)
-            goto CheckMounted;
-
-        frick::vars->output = "Checking sprinting FOV";
-        if (frick::vars->AACharacter->CameraFOVWhenSprinting != frick::vars->sprintingFOV) {
-            frick::vars->output = "Setting sprinting FOV";
-            frick::vars->AACharacter->CameraFOVWhenSprinting = frick::vars->sprintingFOV;
-        }
-
-        if (!item) {
-            frick::vars->output = "No item, going to checkmounted";
-            goto CheckMounted;
-        }
-
-
-        if (!item->CurrentlyWieldedItem) {
-            frick::vars->output = "No item->CurrentlyWieldedItem, going to CleanupFOVS and check mounted";
-
-            CleanupHeldItemFovs();
-            ADSing = false;
-            goto CheckMounted;
-        }
+        int result = (int)frick::vars->playerCharacter->GetTargetFOV(frick::vars->AACharacter);
         
-        
-        if (!frick::vars->HeldItem) {
-            frick::vars->output = "!vars->Held Item... setting";
-
-            if (item->CurrentlyWieldedItem) {
-                frick::vars->HeldItem = item->CurrentlyWieldedItem;
-                frick::vars->HeldItemName = item->CurrentlyWieldedItem->GetName();
-            }
-
-            frick::vars->output = "Set held item";
-        }
-
-        if (frick::vars->HeldItemName.find("Spyglass") != -1 || frick::vars->HeldItemName.find("spyglass") != -1 || frick::vars->HeldItemName.find("telescope") != -1 || frick::vars->HeldItemName.find("Telescope") != -1) {
-            frick::vars->output = "Holding Spyglass";
-
-            spyGlass = (ASpyglass*)frick::vars->HeldItem;
-            frick::vars->output = "Got Spyglass";
-
-            if (!spyGlass)
-                continue;
-
-            spyGlass->InAimFOV = frick::vars->spyGlassFOV;
-            frick::vars->output = "Set aim fov";
-
-            if (spyGlass->IsAiming) {
-                ADSing = true;
-                continue;
-            }
-
-            if (!spyGlass->IsAiming) {
-                ADSing = false;
-                goto CheckMounted;
-            }
-        } else {
-            if (!weapon) {
-                if (frick::vars->HeldItemName.find("BP_wpn") != -1)
-                    weapon = (AProjectileWeapon*)frick::vars->HeldItem;
-                else
-                    goto CheckMounted;
-            }
-            
-            if (frick::vars->HeldItemName.find("BP_wpn_sniper_rifle") != -1) {
-                frick::vars->output = "Holding Sniper";
-
-                if (weapon->WeaponParameters.InAimFOV != frick::vars->sniperFOV - 15)
-                    weapon->WeaponParameters.InAimFOV = frick::vars->sniperFOV - 15;
-                
-                goto CheckWeaponState;
-            }
-
-            if (frick::vars->HeldItemName.find("BP_wpn_flintlock_pistol") != -1) {
-                frick::vars->output = "Holding pistol";
-
-                if (weapon->WeaponParameters.InAimFOV != frick::vars->pistolFOV - 15)
-                    weapon->WeaponParameters.InAimFOV = frick::vars->pistolFOV - 15;
-                
-                goto CheckWeaponState;
-
-            }
-
-            if (frick::vars->HeldItemName.find("BP_wpn_blunderbuss") != -1) {
-                frick::vars->output = "Holding blunder";
-
-                if (weapon->WeaponParameters.InAimFOV != frick::vars->blunderFOV - 15)
-                    weapon->WeaponParameters.InAimFOV = frick::vars->blunderFOV - 15;
-                
-                goto CheckWeaponState;
-            }
-
-        CheckWeaponState:
-            frick::vars->output = "Checking weapon state";
-
-            switch (weapon->State.GetValue()) {
-                case EProjectileWeaponState::EProjectileWeaponState__Aiming:
-                    ADSing = true;
-                    break;
-                case EProjectileWeaponState::EProjectileWeaponState__Recoil:
-                    if (frick::vars->HeldItemName.find("sniper_rifle") != -1) {
-                        if (ADSing)
-                            break;
-                            
-                    } else
-                        ADSing = false;
-                    break;
-                case EProjectileWeaponState::EProjectileWeaponState__Reloading:
-                    ADSing = false;
-                    break;
-                default:
-                    if (ADSing)
-                    ADSing = false;
-                    break;
-            }
-        }
-        
-    CheckMounted:
         frick::vars->output = "Checking if mounted";
 
         if (frick::vars->AACharacter->IsMounted == 69) {
@@ -336,7 +192,8 @@ void doThing(HMODULE hModule) {
             frick::vars->isOnMap = false;
 
             goto SetFOV;
-        } else if (frick::vars->AACharacter->IsMounted == 77) {
+        }
+        else if (frick::vars->AACharacter->IsMounted == 77) {
             frick::vars->output = "Mounted to 79. checking if map";
             attachedToName = frick::vars->AACharacter->AttachmentReplication.AttachComponent->GetName();
 
@@ -350,65 +207,58 @@ void doThing(HMODULE hModule) {
 
         if (frick::vars->AACharacter->IsMounted == 79 && !frick::vars->isOnCannon) {
             frick::vars->isOnCannon = true;
-
-            AActor* attachedTo = frick::vars->localPlayer->PlayerController->AcknowledgedPawn->GetAttachParentActor();
-
-            if (attachedTo)
-                if (attachedTo->GetName().find("Cannon") != -1)
-                    frick::vars->AttachedCannon = (ABP_Cannon_C*)attachedTo;
-            
-            if (frick::vars->AttachedCannon) {
-                frick::vars->output = "Attached to cannon... settings fovs";
-                frick::vars->AttachedCannon->AimFOV = frick::vars->cannonFOVads - 15;
-                frick::vars->AttachedCannon->DefaultFOV = frick::vars->cannonFOV;
-            }
-
             frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->cannonFOV);
             continue;
         }
 
-        if (frick::vars->AACharacter->IsMounted != 79 && frick::vars->isOnCannon) {
-            frick::vars->isOnCannon = false;
-
-            if (frick::vars->AttachedCannon) {
-                frick::vars->output = "Off cannon, resetting fovs";
-
-                frick::vars->AttachedCannon->AimFOV = 70.f;
-                frick::vars->AttachedCannon->DefaultFOV = 85.f;
-                frick::vars->AttachedCannon = nullptr;
-            }
-        }
 
     SetFOV:
-        if (!ADSing) {
-            if (!frick::vars->isOnCannon) {
-                if (!frick::vars->mapFOV) {
-                    if (frick::vars->AACharacter->ReplicatedIsSprinting) {
-                        frick::vars->output = "Setting FOV to sprinting FOV";
-                        frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->sprintingFOV);
-                    }
-                    else {
-                        frick::vars->output = "Setting FOV to FOV";
-                        frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->FOV);
-                    }
-                } else {
-                    if (frick::vars->isOnMap) {
-                        frick::vars->output = "On map setting FOV Map FOV";
-                        frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, 89.f);
+        if (frick::vars->isOnMap) {
+            if (frick::vars->mapFOV)
+                frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, 89.f);
+            else
+                frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->FOV);
 
-                    } else {
-                        frick::vars->output = "On map, setting fov to fov";
-                        frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->FOV);
-
-                    }
-                }
-            }
-        } else {
-            frick::vars->output = "ADSing with weapon: " + frick::vars->HeldItemName;
+            continue;
         }
 
-        if (frick::vars->performance)
-            std::this_thread::sleep_for(std::chrono::milliseconds(5));
+        if (result == 90) {
+            frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->sprintingFOV);
+            continue;
+        }
+
+        if (result == 78 || result == 73) {
+            if (frick::vars->isOnCannon)
+                frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->cannonFOV);
+            else
+                frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->FOV);
+
+            continue;
+        }
+
+        if (result == 60) {
+            if (frick::vars->isOnCannon)
+                frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->cannonFOVads);
+            else
+                frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->pistolFOV);
+
+            continue;
+        }
+
+        if (result == 30) {
+            frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->sniperFOV);
+            continue;
+        }
+
+        if (result == 17) {
+            frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->spyGlassFOV);
+            continue;
+        }
+
+        if (result == 70) {
+            frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->blunderFOV);
+            continue;
+        }
     }
     CleanupAndShutdown(hModule);
 }
