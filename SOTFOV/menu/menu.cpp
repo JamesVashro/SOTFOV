@@ -257,6 +257,11 @@ namespace frick {
                     if (vars->isOnCannon)
                         vars->playerCharacter->SetTargetFOV(vars->AACharacter, vars->cannonFOV);
                 }
+                /*ImGui::Separator();
+                if (ImGui::Button("HotKey") ){
+                    vars->SettingHotkey = true;
+                    ImGui::Text("<Press any Key>");
+                }*/
             }
             if (ImGui::Button("Reset")) {
                 vars->FOV = vars->default_FOV;

@@ -63,7 +63,7 @@ void CleanupAndShutdown(HMODULE hModule) {
 
     CleanupHeldItemFovs();
 
-   
+    
 
     renderer.reset();
     hooking.reset();
@@ -157,37 +157,23 @@ void doThing(HMODULE hModule) {
 
         printf("Dereferenced World: %p\n", world);
     }
-
+    printf("%p\n", frick::vars->localPlayer);
 
     std::string attachedToName = "";
     while (!GetAsyncKeyState(VK_DELETE) & 1) {
         if (!frick::vars->localPlayer->PlayerController)
             continue;
-        
-        frick::vars->output = "Checking if player is waiting";
-        if (frick::vars->localPlayer->PlayerController->isWaiting > 2) {
-            frick::vars->isOnMap = false;
+
+        if (!frick::vars->localPlayer->PlayerController->Character) {
+            weapon = nullptr;
+            spyGlass = nullptr;
+            frick::vars->HeldItem = nullptr;
+            frick::vars->HeldItemName = "";
+
             frick::vars->isOnCannon = false;
-
-            if (weapon)
-                weapon = nullptr;
-
-            if (spyGlass)
-                spyGlass = nullptr;
-
-            if (frick::vars->playerCharacter)
-                frick::vars->playerCharacter = nullptr;
-
-            if (frick::vars->AACharacter)
-                frick::vars->AACharacter = nullptr;
-
-            frick::vars->output = "Player waiting, isOnMap = false";
-            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            frick::vars->isOnMap = false;
             continue;
         }
-
-        if (!frick::vars->localPlayer->PlayerController->Character)
-            continue;
 
         if (frick::vars->playerCharacter != frick::vars->localPlayer->PlayerController->Character)
             frick::vars->playerCharacter = frick::vars->localPlayer->PlayerController->Character;
