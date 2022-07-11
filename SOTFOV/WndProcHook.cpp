@@ -15,6 +15,11 @@ namespace frick {
 		if (menu.opened) {
 			ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam);
             
+            /*if (vars->SettingHotkey) {
+                printf("%I64u\n", wparam);
+                vars->SettingHotkey = false;
+            }*/
+
             ImGuiMouseCursor imgui_cursor = ImGui::GetMouseCursor();
             LPCSTR win32_cursor = IDC_ARROW;
             switch (imgui_cursor)

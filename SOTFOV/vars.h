@@ -66,6 +66,9 @@ namespace frick {
 
 			static inline	bool							Loading = false;
 
+			static inline	int								OpenMenuHotkey = VK_INSERT;
+			static inline	bool							SettingHotkey = false;
+
 			static inline	ABP_Cannon_C*					AttachedCannon{};
 			static inline	AActor*							HeldItem{};
 			static inline	std::string						HeldItemName = "";
