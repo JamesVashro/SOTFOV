@@ -167,8 +167,11 @@ void doThing(HMODULE hModule) {
         if (!frick::vars->localPlayer->PlayerController)
             continue;
 
-        if (!frick::vars->localPlayer->PlayerController->Character)
+        if (!frick::vars->localPlayer->PlayerController->Character) {
+            frick::vars->isOnCannon = false;
+            frick::vars->isOnMap = false;
             continue;
+        }
         
         frick::vars->playerCharacter = frick::vars->localPlayer->PlayerController->Character;
 
@@ -179,7 +182,7 @@ void doThing(HMODULE hModule) {
 
         if (!frick::vars->AACharacter)
             continue;
-
+        
         int result = (int)frick::vars->playerCharacter->GetTargetFOV(frick::vars->AACharacter);
         
         frick::vars->output = "Checking if mounted";
