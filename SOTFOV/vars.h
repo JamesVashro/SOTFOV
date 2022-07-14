@@ -64,6 +64,8 @@ namespace frick {
 			static inline	ULocalPlayer*					localPlayer{};
 			static inline	UGameViewportClient*			ViewPortClient{};
 
+			static inline	int								HotKey = VK_INSERT;
+
 			static inline	bool							Loading = false;
 
 			static inline	int								OpenMenuHotkey = VK_INSERT;

@@ -73,6 +73,10 @@ namespace frick {
 
                     }
                 }
+
+                if (line.find("MenuHotkey") != -1) {
+                    vars->HotKey = std::stoi(line);
+                }
             }
         }
 
@@ -166,6 +170,10 @@ namespace frick {
 
                             }
                         }
+
+                        if (line.find("MenuHotkey") != -1) {
+                            vars->HotKey = std::stoi(line);
+                        }
                     }
 
                         
@@ -199,6 +207,8 @@ namespace frick {
                         vars->cfgFile << std::to_string(1) + " MapTable\n";
                     else
                         vars->cfgFile << std::to_string(0) + " MapTable\n";
+
+                    vars->cfgFile << std::to_string(vars->HotKey) + " MenuHotkey\n";
                 }
 
                 vars->cfgFile.close();
@@ -257,11 +267,7 @@ namespace frick {
                     if (vars->isOnCannon)
                         vars->playerCharacter->SetTargetFOV(vars->AACharacter, vars->cannonFOV);
                 }
-                /*ImGui::Separator();
-                if (ImGui::Button("HotKey") ){
-                    vars->SettingHotkey = true;
-                    ImGui::Text("<Press any Key>");
-                }*/
+
             }
             if (ImGui::Button("Reset")) {
                 vars->FOV = vars->default_FOV;
@@ -277,6 +283,10 @@ namespace frick {
 
                 vars->playerCharacter->SetTargetFOV(vars->AACharacter, vars->FOV);
             }
+
+            ImGui::SameLine();
+            if (ImGui::Button(vars->SettingHotkey ? "<Press Any Key>" : "Hot Key"))
+                vars->SettingHotkey = true;
             
         }
         ImGui::End();

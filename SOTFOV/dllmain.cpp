@@ -68,8 +68,6 @@ void CleanupAndShutdown(HMODULE hModule) {
 
     CleanupHeldItemFovs();
 
-
-
     renderer.reset();
     hooking.reset();
     vars.reset();

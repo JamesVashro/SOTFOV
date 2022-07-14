@@ -8,17 +8,26 @@ namespace frick {
 	LRESULT WINAPI Hooks::WndProc_Hook(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 
 
-		if (msg == WM_KEYUP && wparam == VK_INSERT) {
+		if (msg == WM_KEYUP && wparam == vars->HotKey) {
 			menu.opened = !menu.opened;
 		}
 
 		if (menu.opened) {
 			ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam);
             
-            /*if (vars->SettingHotkey) {
-                printf("%I64u\n", wparam);
-                vars->SettingHotkey = false;
-            }*/
+
+
+            if (vars->SettingHotkey) {
+                if (wparam == VK_F1 || wparam == VK_F2 || wparam == VK_F3 || wparam == VK_F4 || wparam == VK_F5 || wparam == VK_F6 ||
+                    wparam == VK_F7 || wparam == VK_F8 || wparam == VK_F9 || wparam == VK_F11 || wparam == VK_F12 ||
+                    wparam == VK_INSERT || wparam == VK_HOME || wparam == VK_END
+                    || wparam == VK_PAUSE || wparam == VK_SCROLL) {
+
+                    vars->HotKey = (int)wparam;
+                    printf("%i\n", (int)wparam);
+                    vars->SettingHotkey = false;
+                }
+            }
 
             ImGuiMouseCursor imgui_cursor = ImGui::GetMouseCursor();
             LPCSTR win32_cursor = IDC_ARROW;
