@@ -85,9 +85,9 @@ void make_minidump(EXCEPTION_POINTERS* e)
     if (file.is_open()) {
         file << "AACharacter                    " << frick::vars->AACharacter << "\n";
         file << "PlayerCharacter                " << frick::vars->playerCharacter << "\n";
-        file << "Cheats                         " << frick::vars->cheats << "\n";
-        file << "ViewPortClient                 " << frick::vars->ViewPortClient << "\n";
-        file << "PostRenderHooked               " << frick::vars->PostRenderHooked << "\n";
+        file << "PlayerController               " << frick::vars->localPlayer->PlayerController << "\n";
+        file << "LocalPlayer                    " << frick::vars->localPlayer << "\n";
+
         file << "Current Output                 " << frick::vars->output << "\n";
 
     }
@@ -178,12 +178,6 @@ void doThing(HMODULE hModule) {
 
         if (!frick::vars->localPlayer->PlayerController)
             continue;
-
-        if (frick::vars->localPlayer->PlayerController->isWaiting > 2)
-            frick::vars->Loading = true;
-        else if (frick::vars->localPlayer->PlayerController->isWaiting == 2)
-            frick::vars->Loading = false;
-
 
         if (!frick::vars->localPlayer->PlayerController->Character) {
             weapon = nullptr;
@@ -321,6 +315,9 @@ void doThing(HMODULE hModule) {
         else if (frick::vars->AACharacter->IsMounted == 77) {
             frick::vars->output = "Mounted to 77";
 
+            if (!frick::vars->AACharacter->AttachmentReplication.AttachComponent)
+                continue;
+
             attachedToName = frick::vars->AACharacter->AttachmentReplication.AttachComponent->GetName();
 
             if (attachedToName == "TableMesh") {
@@ -377,6 +374,7 @@ void doThing(HMODULE hModule) {
                 }
                 else {
                     frick::vars->output = "Setting fov to fov";
+
                     frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->FOV);
                 }
             }
@@ -386,7 +384,6 @@ void doThing(HMODULE hModule) {
             std::this_thread::sleep_for(std::chrono::milliseconds(5));
     }
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     CleanupAndShutdown(hModule);
 }
 

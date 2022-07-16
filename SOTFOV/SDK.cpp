@@ -87,18 +87,29 @@ float ACharacter::GetTargetFOV(class AAthenaPlayerCharacter* Character) {
 
 void ACharacter::SetTargetFOV(class AAthenaPlayerCharacter* Character, float TargetFOV)
 {
-	static auto fn = UObject::FindObject<UFunction>("Function Athena.FOVHandlerFunctions.SetTargetFOV");
+	if (!Character)
+		return;
+	try {
+		static auto fn = UObject::FindObject<UFunction>("Function Athena.FOVHandlerFunctions.SetTargetFOV");
 
-	UFOVHandlerFunctions_SetTargetFOV_Params params;
-	params.Character = Character;
-	params.TargetFOV = TargetFOV - 13;
+		if (!fn)
+			return;
 
-	auto flags = fn->FunctionFlags;
-	fn->FunctionFlags |= 0x400;
+		UFOVHandlerFunctions_SetTargetFOV_Params params;
+		params.Character = Character;
+		params.TargetFOV = TargetFOV - 13;
 
-	UObject::ProcessEvent(this, fn, &params);
+		auto flags = fn->FunctionFlags;
+		fn->FunctionFlags |= 0x400;
 
-	fn->FunctionFlags = flags;
+		UObject::ProcessEvent(this, fn, &params);
+
+		fn->FunctionFlags = flags;
+	}
+	catch (...) {
+		printf("Couldnt Set FOV\n");
+	}
+	
 }
 
 // Function Engine.Actor.GetAttachParentActor
