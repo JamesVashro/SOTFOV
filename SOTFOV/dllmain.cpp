@@ -281,6 +281,13 @@ void doThing(HMODULE hModule) {
         CheckWeaponState:
             switch (weapon->State.GetValue()) {
             case EProjectileWeaponState::EProjectileWeaponState__Aiming:
+                if (!ADSing) {
+                    if (frick::vars->HeldItemName.find("sniper_rifle") != -1) {
+                        frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->FOV);
+
+                    }
+                }
+                
                 ADSing = true;
                 break;
             case EProjectileWeaponState::EProjectileWeaponState__Recoil:
