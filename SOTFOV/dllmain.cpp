@@ -26,31 +26,6 @@ auto renderer = std::make_unique<frick::Renderer>();
 auto hooking = std::make_unique<frick::Hooking>();
 auto vars = std::make_unique<frick::Vars>();
 
-void CleanupHeldItemFovs() {
-    frick::vars->output = "Cleaning up fovs";
-    if (frick::vars->HeldItem) {
-        if (frick::vars->HeldItemName.find("Spyglass") != -1 || frick::vars->HeldItemName.find("spyglass") != -1) {
-            ASpyglass* spyGlass = (ASpyglass*)frick::vars->HeldItem;
-            spyGlass->InAimFOV = 17.f;
-
-        }
-        else {
-            if (frick::vars->HeldItemName.find("BP_wpn") != -1) {
-                AProjectileWeapon* weapon = (AProjectileWeapon*)frick::vars->HeldItem;
-                weapon->WeaponParameters.InAimFOV = frick::vars->getWeaponDefaultFOV(frick::vars->HeldItemName);
-            }
-        }
-
-        frick::vars->HeldItem = nullptr;
-        frick::vars->HeldItemName = "";
-        weapon = nullptr;
-        spyGlass = nullptr;
-    }
-
-    frick::vars->output = "Done cleaning up fovs";
-
-}
-
 void CleanupAndShutdown(HMODULE hModule) {
     MH_Uninitialize();
 
@@ -60,8 +35,6 @@ void CleanupAndShutdown(HMODULE hModule) {
     if (frick::vars->AACharacter) {
         frick::vars->AACharacter->CameraFOVWhenSprinting = 90.5f;
     }
-
-    CleanupHeldItemFovs();
 
     
 
@@ -160,9 +133,17 @@ void doThing(HMODULE hModule) {
 
 
     std::string attachedToName = "";
+    int laps = 0;
+
     while (!GetAsyncKeyState(VK_DELETE) & 1) {
         if (frick::vars->performance)
             std::this_thread::sleep_for(std::chrono::milliseconds(5));
+        else {
+            if (laps % 75 == 0)
+                laps = 0;
+            else
+                continue;
+        }
 
         if (!frick::vars->localPlayer->PlayerController)
             continue;

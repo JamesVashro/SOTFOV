@@ -20,7 +20,9 @@ namespace frick {
 			static inline	std::string						cfgFileDir;
 			static inline	imgui_addons::ImGuiFileBrowser	fileBrowser;
 
-			
+			static inline	bool							SettingHotkey = false;
+			static inline	int								HotKey = VK_INSERT;
+
 			static inline	float							FOV = 120.f;
 			static inline	float							sniperFOV = 65.f;
 			static inline	float							pistolFOV = 100.f;
