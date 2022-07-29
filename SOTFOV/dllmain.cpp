@@ -257,23 +257,23 @@ void doThing(HMODULE hModule) {
 
             if (frick::vars->HeldItemName.find("BP_wpn_sniper_rifle") != -1) {
 
-                if (weapon->WeaponParameters.InAimFOV != frick::vars->sniperFOV - 15)
-                    weapon->WeaponParameters.InAimFOV = frick::vars->sniperFOV - 15;
+                if (weapon->WeaponParameters.InAimFOV != frick::vars->sniperFOV - 13)
+                    weapon->WeaponParameters.InAimFOV = frick::vars->sniperFOV - 13;
 
                 goto CheckWeaponState;
             }
 
             if (frick::vars->HeldItemName.find("BP_wpn_flintlock_pistol") != -1) {
-                if (weapon->WeaponParameters.InAimFOV != frick::vars->pistolFOV - 15)
-                    weapon->WeaponParameters.InAimFOV = frick::vars->pistolFOV - 15;
+                if (weapon->WeaponParameters.InAimFOV != frick::vars->pistolFOV - 13)
+                    weapon->WeaponParameters.InAimFOV = frick::vars->pistolFOV - 13;
 
                 goto CheckWeaponState;
 
             }
 
             if (frick::vars->HeldItemName.find("BP_wpn_blunderbuss") != -1) {
-                if (weapon->WeaponParameters.InAimFOV != frick::vars->blunderFOV - 15)
-                    weapon->WeaponParameters.InAimFOV = frick::vars->blunderFOV - 15;
+                if (weapon->WeaponParameters.InAimFOV != frick::vars->blunderFOV - 13)
+                    weapon->WeaponParameters.InAimFOV = frick::vars->blunderFOV - 13;
 
                 goto CheckWeaponState;
             }
