@@ -104,9 +104,9 @@ void doThing(HMODULE hModule) {
             }    
         }
     }
-   
     FreeConsole();
     fclose(f);
+    
 
     if (!InitializeObjects() || !InitializeNames()) {
         CleanupAndShutdown(hModule);
@@ -211,7 +211,7 @@ void doThing(HMODULE hModule) {
             continue;
         }
 
-        if (result == 78 || result == 73) {
+        if (result == 78 || result == 73 || result == 67) {
             if (frick::vars->isOnCannon)
                 frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->cannonFOV);
             else
