@@ -66,7 +66,11 @@ void CleanupAndShutdown(HMODULE hModule) {
         frick::vars->AACharacter->CameraFOVWhenSprinting = 90.5f;
     }
 
+    
+
     CleanupHeldItemFovs();
+
+    
 
     renderer.reset();
     hooking.reset();
@@ -207,6 +211,7 @@ void doThing(HMODULE hModule) {
 
         if (frick::vars->AACharacter->CameraFOVWhenSprinting != frick::vars->sprintingFOV)
             frick::vars->AACharacter->CameraFOVWhenSprinting = frick::vars->sprintingFOV;
+
 
         if (!item)
             goto CheckMounted;
