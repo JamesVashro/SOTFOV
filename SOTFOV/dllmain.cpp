@@ -35,7 +35,6 @@ void CleanupAndShutdown(HMODULE hModule) {
     if (frick::vars->AACharacter) {
         frick::vars->AACharacter->CameraFOVWhenSprinting = 90.5f;
     }
-
     
 
     renderer.reset();
@@ -104,9 +103,10 @@ void doThing(HMODULE hModule) {
             }    
         }
     }
+    
+
     FreeConsole();
     fclose(f);
-    
 
     if (!InitializeObjects() || !InitializeNames()) {
         CleanupAndShutdown(hModule);
@@ -172,8 +172,13 @@ void doThing(HMODULE hModule) {
             if (attachedToName != "")
                 attachedToName = "";
 
-            frick::vars->isOnCannon = false;
-            frick::vars->isOnMap = false;
+            
+            
+            if (frick::vars->isOnCannon || frick::vars->isOnMap) {
+                frick::vars->isOnCannon = false;
+                frick::vars->isOnMap = false;
+                frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->FOV);
+            }
 
             goto SetFOV;
         }
@@ -258,4 +263,3 @@ BOOL APIENTRY DllMain(HMODULE hModule,
     }
     return TRUE;
 }
-
