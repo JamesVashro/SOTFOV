@@ -172,12 +172,11 @@ void doThing(HMODULE hModule) {
             if (attachedToName != "")
                 attachedToName = "";
 
-            
-            
             if (frick::vars->isOnCannon || frick::vars->isOnMap) {
                 frick::vars->isOnCannon = false;
                 frick::vars->isOnMap = false;
                 frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->FOV);
+                continue;
             }
 
             goto SetFOV;
