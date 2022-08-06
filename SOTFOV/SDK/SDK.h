@@ -2257,7 +2257,7 @@ public:
 	unsigned char                                      UnknownData00[0x10];                                      // 0x0028(0x0010) MISSED OFFSET
 	TArray<class ULocalPlayer*>                        LocalPlayers;                                             // 0x0038(0x0010) (ZeroConstructor)
 	unsigned char                                      UnknownData01[0x8];                                       // 0x0048(0x0008) MISSED OFFSET
-	class UOnlineSession* OnlineSession;                                            // 0x0050(0x0008) (ZeroConstructor, IsPlainOldData)
+	class UOnlineSession*							   OnlineSession;                                            // 0x0050(0x0008) (ZeroConstructor, IsPlainOldData)
 	unsigned char                                      UnknownData02[0x30];                                      // 0x0058(0x0030) MISSED OFFSET
 
 	static UClass* StaticClass()
