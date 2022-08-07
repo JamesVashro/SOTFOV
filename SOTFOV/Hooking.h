@@ -15,7 +15,6 @@ namespace frick {
 		static LRESULT WINAPI WndProc_Hook(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 		static HCURSOR WINAPI SetCursorHook(HCURSOR hCursor);
 		static BOOL WINAPI SetCursorPosHook(int X, int Y);
-		static void PostRenderHook(UAthenaGameViewportClient* viewPortClient, UCanvas* canvas);
 	};
 
 	class Hooking {

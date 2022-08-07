@@ -59,14 +59,9 @@ void CleanupHeldItemFovs() {
 void CleanupAndShutdown(HMODULE hModule) {
     MH_Uninitialize();
 
-    if (frick::vars->PostRenderHooked)
-        frick::vars->UnHookPostRender();
-
     if (frick::vars->AACharacter) {
         frick::vars->AACharacter->CameraFOVWhenSprinting = 90.5f;
     }
-
-    
 
     CleanupHeldItemFovs();
 
@@ -154,11 +149,6 @@ void doThing(HMODULE hModule) {
         frick::vars->localPlayer = world->OwningGameInstance->LocalPlayers[0];
 
         if (!frick::vars->localPlayer)
-            return;
-
-        frick::vars->ViewPortClient = frick::vars->localPlayer->ViewportClient;
-
-        if (!frick::vars->ViewPortClient)
             return;
 
         printf("Dereferenced World: %p\n", world);

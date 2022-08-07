@@ -17,6 +17,5 @@ namespace frick {
 		playerCharacter = nullptr;
 		AACharacter = nullptr;
 		localPlayer = nullptr;
-		ViewPortClient = nullptr;
 	}
 }

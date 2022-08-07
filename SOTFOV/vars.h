@@ -62,7 +62,6 @@ namespace frick {
 			static inline	ACharacter*						playerCharacter{};
 			static inline	AAthenaPlayerCharacter*			AACharacter{};
 			static inline	ULocalPlayer*					localPlayer{};
-			static inline	UGameViewportClient*			ViewPortClient{};
 
 			static inline	int								HotKey = VK_INSERT;
 
@@ -85,24 +84,6 @@ namespace frick {
 					return 70.f;
 
 				return 130.f;
-			}
-
-
-			static inline void HookPostRender() {
-				auto vtable = *(uintptr_t**)ViewPortClient;
-
-				*(void**)&hooking->oPostRender = (void*)vtable[87];
-				vtable[87] = (uintptr_t)(Hooks::PostRenderHook);
-
-				PostRenderHooked = true;
-			}
-
-			static inline void UnHookPostRender() {
-				PostRenderHooked = false;
-
-				auto vtable = *(uintptr_t**)ViewPortClient;
-				vtable[87] = (uintptr_t)hooking->oPostRender;
-				hooking->oPostRender = nullptr;
 			}
 
 			static inline float curFOV = 0.f;
