@@ -64,43 +64,12 @@ namespace frick {
 			static inline	ACharacter*						playerCharacter{};
 			static inline	AAthenaPlayerCharacter*			AACharacter{};
 			static inline	ULocalPlayer*					localPlayer{};
-			static inline	UGameViewportClient*			ViewPortClient{};
 
 			static inline	bool							Loading = false;
 
 			static inline	ABP_Cannon_C*					AttachedCannon{};
 			static inline	AActor*							HeldItem{};
 			static inline	std::string						HeldItemName = "";
-
-
-			static inline float getWeaponDefaultFOV(std::string name) {
-				if (HeldItemName.find("BP_wpn_sniper_rifle") != -1)
-					return 30.f;
-				else if (HeldItemName.find("BP_wpn_flintlock_pistol") != -1)
-					return 60.f;
-				else if (HeldItemName.find("BP_wpn_blunderbuss") != -1)
-					return 70.f;
-
-				return 130.f;
-			}
-
-
-			static inline void HookPostRender() {
-				auto vtable = *(uintptr_t**)ViewPortClient;
-
-				*(void**)&hooking->oPostRender = (void*)vtable[87];
-				vtable[87] = (uintptr_t)(Hooks::PostRenderHook);
-
-				PostRenderHooked = true;
-			}
-
-			static inline void UnHookPostRender() {
-				PostRenderHooked = false;
-
-				auto vtable = *(uintptr_t**)ViewPortClient;
-				vtable[87] = (uintptr_t)hooking->oPostRender;
-				hooking->oPostRender = nullptr;
-			}
 
 			static inline float curFOV = 0.f;
 	};
