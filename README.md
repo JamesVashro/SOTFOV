@@ -1,6 +1,9 @@
 # SOTFOV
 FOV changer tool for sea of thieves
 
+This was my first game hack i made public so if the code is dogshit... youre welcome :)
+The 2 branches are 2 different ways to do this, the master branch tends to be more FPS friendly for, for me at least, and the Get-Target-FOV branch is a simpler method at the cost of worse frame drops. Definately could use some improvements but thats why i made it public
+
 This is a Field Of View changer tool. customizable to a crazy extent.
 All weapons have different sliders.
 
