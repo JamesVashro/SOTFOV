@@ -18,9 +18,6 @@
 #pragma comment(lib, "libMinHook.x64.lib")
 
 FILE* f;
-bool ADSing = false;
-ASpyglass* spyGlass = nullptr;
-AProjectileWeapon* weapon = nullptr;
 
 auto renderer = std::make_unique<frick::Renderer>();
 auto hooking = std::make_unique<frick::Hooking>();
@@ -29,6 +26,8 @@ auto vars = std::make_unique<frick::Vars>();
 void CleanupAndShutdown(HMODULE hModule) {
     MH_Uninitialize();
 
+    
+
     renderer.reset();
     hooking.reset();
     vars.reset();
@@ -36,39 +35,7 @@ void CleanupAndShutdown(HMODULE hModule) {
     CloseHandle(hModule);
     FreeLibraryAndExitThread(hModule, 0);
 }
-
-
-
-void make_minidump(EXCEPTION_POINTERS* e)
-{
-    auto path = frick::vars->cfgFileDir + "\\CrashDump.txt";
-    std::fstream file;
-    file.open(path, std::ios::out);
-
-    if (file.is_open()) {
-        file << "AACharacter                    " << frick::vars->AACharacter << "\n";
-        file << "PlayerCharacter                " << frick::vars->playerCharacter << "\n";
-        file << "Cheats                         " << frick::vars->cheats << "\n";
-        file << "Spyglass                       " << spyGlass << "\n";
-        file << "Weapon                         " << weapon << "\n";
-        file << "Current Output:                " << frick::vars->output << "\n";
-        file << "Performance Mode:              " << frick::vars->performance << "\n";
-        file << "Currently Held Item:           " << frick::vars->HeldItemName << "\n";
-    }
-
-    file.close();
-    return;
-}
-
-LONG CALLBACK unhandled_handler(EXCEPTION_POINTERS* e)
-{
-    make_minidump(e);
-    return EXCEPTION_CONTINUE_SEARCH;
-}
-
-
 void doThing(HMODULE hModule) {
-    SetUnhandledExceptionFilter(unhandled_handler);
 
     AllocConsole();
     freopen_s(&f, "CONOUT$", "w", stdout);
@@ -96,9 +63,9 @@ void doThing(HMODULE hModule) {
         }
     }
     
-
     FreeConsole();
     fclose(f);
+    
 
     if (!InitializeObjects() || !InitializeNames()) {
         CleanupAndShutdown(hModule);
@@ -120,26 +87,12 @@ void doThing(HMODULE hModule) {
 
 
     std::string attachedToName = "";
-    int laps = 0;
+    int oldResult = 0;
+    float multiplier = 1.0f;
 
     while (!GetAsyncKeyState(VK_DELETE) & 1) {
-        if (frick::vars->performance)
-            std::this_thread::sleep_for(std::chrono::milliseconds(5));
-        else {
-            if (laps % 75 == 0)
-                laps = 0;
-            else
-                continue;
-        }
-
         if (!frick::vars->localPlayer->PlayerController)
             continue;
-
-        if (!frick::vars->localPlayer->PlayerController->Character) {
-            frick::vars->isOnCannon = false;
-            frick::vars->isOnMap = false;
-            continue;
-        }
         
         frick::vars->playerCharacter = frick::vars->localPlayer->PlayerController->Character;
 
@@ -152,88 +105,34 @@ void doThing(HMODULE hModule) {
             continue;
         
         int result = (int)frick::vars->playerCharacter->GetTargetFOV(frick::vars->AACharacter);
-        
-        frick::vars->output = "Checking if mounted";
 
-        if (frick::vars->AACharacter->IsMounted == 69) {
-            if (attachedToName != "")
-                attachedToName = "";
+        if (result != 17 && result != oldResult) {
+            //printf("--------------\ngetfov Result: %i          %i\n", result, oldResult);
 
-            if (frick::vars->isOnCannon || frick::vars->isOnMap) {
-                frick::vars->isOnCannon = false;
-                frick::vars->isOnMap = false;
-                frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->FOV);
-                continue;
+            if (result == 78) //normal fov
+                multiplier = 1.0f;
+            else if (result == 73) //steering wheel, harpoon, cannon
+                multiplier = 0.94444441025f;
+            else if (result == 90) {//sprinting
+                if (frick::vars->sprintFOV)
+                    multiplier = 1.1f;
+                else
+                    multiplier = 1.0f;
             }
+            else if (result == 60) //pistol zoom
+                multiplier = 0.76923076923f;
+            else if (result == 70) //blunderbuss
+                multiplier = 0.89743589743f;
+            else if (result == 30) //sniper
+                multiplier = 0.38461538461f;
 
-            goto SetFOV;
-        }
-        else if (frick::vars->AACharacter->IsMounted == 77) {
-            frick::vars->output = "Mounted to 79. checking if map";
-            attachedToName = frick::vars->AACharacter->AttachmentReplication.AttachComponent->GetName();
+            
+            //printf("Updated multiplyer: %f\nSetting FOv to: %f\n------------\n", multiplier, frick::vars->FOV * multiplier);
+            frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->FOV * multiplier);
 
-            if (attachedToName == "TableMesh") {
-                frick::vars->isOnMap = true;
-                frick::vars->output = "Mounted To map, setting FOV";
-
-                goto SetFOV;
-            }
         }
 
-        if (frick::vars->AACharacter->IsMounted == 79 && !frick::vars->isOnCannon) {
-            frick::vars->isOnCannon = true;
-            frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->cannonFOV);
-            continue;
-        }
-
-
-    SetFOV:
-        if (frick::vars->isOnMap) {
-            if (frick::vars->mapFOV)
-                frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, 89.f);
-            else
-                frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->FOV);
-
-            continue;
-        }
-
-        if (result == 90) {
-            frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->sprintingFOV);
-            continue;
-        }
-
-        if (result == 78 || result == 73 || result == 67) {
-            if (frick::vars->isOnCannon)
-                frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->cannonFOV);
-            else
-                frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->FOV);
-
-            continue;
-        }
-
-        if (result == 60) {
-            if (frick::vars->isOnCannon)
-                frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->cannonFOVads);
-            else
-                frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->pistolFOV);
-
-            continue;
-        }
-
-        if (result == 30) {
-            frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->sniperFOV);
-            continue;
-        }
-
-        if (result == 17) {
-            frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->spyGlassFOV);
-            continue;
-        }
-
-        if (result == 70) {
-            frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->blunderFOV);
-            continue;
-        }
+        oldResult = result;
     }
     CleanupAndShutdown(hModule);
 }

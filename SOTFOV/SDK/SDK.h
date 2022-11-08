@@ -137,16 +137,6 @@ struct FName
 	}
 };
 
-// ScriptStruct CoreUObject.Transform
-// Size: 0x30 (Inherited: 0x00)
-struct FTransform {
-	struct FQuat Rotation; // 0x00(0x10)
-	struct FVector Translation; // 0x10(0x0c)
-	char UnknownData_1C[0x4]; // 0x1c(0x04)
-	struct FVector Scale3D; // 0x20(0x0c)
-	char UnknownData_2C[0x4]; // 0x2c(0x04)
-};
-
 struct FUObjectItem
 {
 	class UObject* Object; //0x0000
@@ -247,92 +237,6 @@ public:
 	}
 };
 
-// Class Engine.Texture
-// 0x0110 (0x0138 - 0x0028)
-class UTexture : public UObject {
-public:
-	unsigned char padding[0x110];
-};
-
-// Class Engine.Texture2D
-// 0x0058 (0x0190 - 0x0138)
-class UTexture2D : public UTexture {
-public:
-	unsigned char padding[0x58];
-};
-
-// Class Engine.Font
-// Size: 0x1d8 (Inherited: 0x28)
-class UFont : public UObject {
-public:
-	unsigned char padding[0x1d8];
-};
-
-// Class Engine.Canvas
-// 0x00C8 (0x00F0 - 0x0028)
-class UCanvas : public UObject
-{
-public:
-	float                                              OrgX;                                                     // 0x0028(0x0004) (ZeroConstructor, IsPlainOldData)
-	float                                              OrgY;                                                     // 0x002C(0x0004) (ZeroConstructor, IsPlainOldData)
-	float                                              ClipX;                                                    // 0x0030(0x0004) (ZeroConstructor, IsPlainOldData)
-	float                                              ClipY;                                                    // 0x0034(0x0004) (ZeroConstructor, IsPlainOldData)
-	struct FColor                                      DrawColor;                                                // 0x0038(0x0004) (ZeroConstructor, IsPlainOldData)
-	unsigned char                                      bCenterX : 1;                                             // 0x003C(0x0001)
-	unsigned char                                      bCenterY : 1;                                             // 0x003C(0x0001)
-	unsigned char                                      bNoSmooth : 1;                                            // 0x003C(0x0001)
-	unsigned char                                      UnknownData00[0x3];                                       // 0x003D(0x0003) MISSED OFFSET
-	int                                                SizeX;                                                    // 0x0040(0x0004) (ZeroConstructor, IsPlainOldData)
-	int                                                SizeY;                                                    // 0x0044(0x0004) (ZeroConstructor, IsPlainOldData)
-	unsigned char                                      UnknownData01[0x8];                                       // 0x0048(0x0008) MISSED OFFSET
-	struct FPlane                                      ColorModulate;                                            // 0x0050(0x0010) (ZeroConstructor, IsPlainOldData)
-	class UTexture2D* DefaultTexture;                                           // 0x0060(0x0008) (ZeroConstructor, IsPlainOldData)
-	class UTexture2D* GradientTexture0;                                         // 0x0068(0x0008) (ZeroConstructor, IsPlainOldData)
-	class UReporterGraph* ReporterGraph;                                            // 0x0070(0x0008) (ZeroConstructor, IsPlainOldData)
-	unsigned char                                      UnknownData02[0x78];                                      // 0x0078(0x0078) MISSED OFFSET
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class Engine.Canvas");
-		return ptr;
-	}
-
-	//struct FVector2D K2_TextSize(struct UFont* RenderFont, struct FString RenderText, struct FVector2D Scale); // Function Engine.Canvas.K2_TextSize // Final|Native|Public|HasDefaults|BlueprintCallable // @ game+0x2e99020
-	//struct FVector2D K2_StrLen(struct UFont* RenderFont, struct FString RenderText); // Function Engine.Canvas.K2_StrLen // Final|Native|Public|HasDefaults|BlueprintCallable // @ game+0x2e98f30
-	//struct FVector K2_Project(struct FVector WorldLocation); // Function Engine.Canvas.K2_Project // Final|Native|Public|HasDefaults|BlueprintCallable // @ game+0x2e98bb0
-	//void K2_DrawTriangle(struct UTexture* RenderTexture, struct TArray<struct FCanvasUVTri> Triangles); // Function Engine.Canvas.K2_DrawTriangle // Final|Native|Public|BlueprintCallable // @ game+0x2e97d70
-	void K2_DrawText(struct FString RenderText, struct FVector2D ScreenPosition, struct FVector2D Scale, struct FLinearColor RenderColor, float Kerning, struct FLinearColor ShadowColor, struct FVector2D ShadowOffset, bool bCentreX, bool bCentreY, bool bOutlined, struct FLinearColor OutlineColor);
-	void K2_DrawLine(const struct FVector2D& ScreenPositionA, const struct FVector2D& ScreenPositionB, float Thickness, const struct FLinearColor& RenderColor); // Function Engine.Canvas.K2_DrawLine // Final|Native|Public|HasDefaults|BlueprintCallable // @ game+0x2e96cc0
-	void K2_DrawBox(const struct FVector2D& ScreenPosition, const struct FVector2D& ScreenSize, float Thickness);
-	//void K2_DrawBorder(struct UTexture* BorderTexture, struct UTexture* BackgroundTexture, struct UTexture* LeftBorderTexture, struct UTexture* RightBorderTexture, struct UTexture* TopBorderTexture, struct UTexture* BottomBorderTexture, struct FVector2D ScreenPosition, struct FVector2D ScreenSize, struct FVector2D CoordinatePosition, struct FVector2D CoordinateSize, struct FLinearColor RenderColor, struct FVector2D BorderScale, struct FVector2D BackgroundScale, float Rotation, struct FVector2D PivotPoint, struct FVector2D CornerSize); // Function Engine.Canvas.K2_DrawBorder // Final|Native|Public|HasDefaults|BlueprintCallable // @ game+0x2e96780
-
-};
-
-struct UCanvas_K2_DrawText_Params
-{
-	class UFont* RenderFont;                                               // (Parm, ZeroConstructor, IsPlainOldData)
-	struct FString                                     RenderText;                                               // (Parm, ZeroConstructor)
-	struct FVector2D                                   ScreenPosition;                                           // (Parm, ZeroConstructor, IsPlainOldData)
-	struct FVector2D                                   Scale;                                                    // (Parm, ZeroConstructor, IsPlainOldData)
-	struct FLinearColor                                RenderColor;                                              // (Parm, ZeroConstructor, IsPlainOldData)
-	float                                              Kerning;                                                  // (Parm, ZeroConstructor, IsPlainOldData)
-	struct FLinearColor                                ShadowColor;                                              // (Parm, ZeroConstructor, IsPlainOldData)
-	struct FVector2D                                   ShadowOffset;                                             // (Parm, ZeroConstructor, IsPlainOldData)
-	bool                                               bCentreX;                                                 // (Parm, ZeroConstructor, IsPlainOldData)
-	bool                                               bCentreY;                                                 // (Parm, ZeroConstructor, IsPlainOldData)
-	bool                                               bOutlined;                                                // (Parm, ZeroConstructor, IsPlainOldData)
-	struct FLinearColor                                OutlineColor;                                             // (Parm, ZeroConstructor, IsPlainOldData)
-};
-
-
-// Function Engine.Canvas.K2_DrawBox
-struct UCanvas_K2_DrawBox_Params
-{
-	struct FVector2D                                   ScreenPosition;                                           // (Parm, ZeroConstructor, IsPlainOldData)
-	struct FVector2D                                   ScreenSize;                                               // (Parm, ZeroConstructor, IsPlainOldData)
-	float                                              Thickness;                                                // (Parm, ZeroConstructor, IsPlainOldData)
-};
-
 // Function Engine.Canvas.K2_DrawLine
 struct UCanvas_K2_DrawLine_Params
 {
@@ -420,57 +324,6 @@ public:
 		static auto ptr = UObject::FindClass("Class CoreUObject.Function");
 		return ptr;
 	}
-
-};
-
-// Enum Engine.EActorSpawnRestrictions
-enum class EActorSpawnRestrictions : uint8_t
-{
-	EActorSpawnRestrictions__ServerOnly = 0,
-	EActorSpawnRestrictions__ClientOnly = 1,
-	EActorSpawnRestrictions__ServerAndClient = 2,
-	EActorSpawnRestrictions__SpawnRestrictionMax = 3,
-	EActorSpawnRestrictions__EActorSpawnRestrictions_MAX = 4
-};
-
-// Enum Engine.ENetRole
-enum class ENetRole : uint8_t
-{
-	ROLE_None = 0,
-	ROLE_SimulatedProxy = 1,
-	ROLE_AutonomousProxy = 2,
-	ROLE_Authority = 3,
-	ROLE_MAX = 4
-};
-
-// ScriptStruct Engine.RepMovement
-// 0x0038
-struct FRepMovement
-{
-	unsigned char paddingp[0x38];
-};
-
-// ScriptStruct Engine.TickFunction
-// 0x0048
-struct FTickFunction
-{
-	unsigned char padding[0x48];
-};
-
-// ScriptStruct Engine.ActorTickFunction
-// 0x0008 (0x0050 - 0x0048)
-struct FActorTickFunction : public FTickFunction
-{
-	unsigned char padding[0x0008];
-};
-
-// ScriptStruct Engine.Vector_NetQuantize100
-// 0x0000 (0x000C - 0x000C)
-struct FVector_NetQuantize100 : public FVector
-{
-	float                                              X;                                                        // 0x0000(0x0004) (Edit, BlueprintVisible, ZeroConstructor, SaveGame, IsPlainOldData)
-	float                                              Y;                                                        // 0x0004(0x0004) (Edit, BlueprintVisible, ZeroConstructor, SaveGame, IsPlainOldData)
-	float                                              Z;                                                        // 0x0008(0x0004) (Edit, BlueprintVisible, ZeroConstructor, SaveGame, IsPlainOldData)
 };
 
 // Class Engine.ActorComponent
@@ -489,60 +342,18 @@ public:
 	unsigned char paddingp[0x0218];
 };
 
-// ScriptStruct Engine.RepAttachment
-// 0x0048
-struct FRepAttachment
-{
-	unsigned char padding[0x38];
-	class USceneComponent* AttachComponent;                                          // 0x0038(0x0008) (ExportObject, ZeroConstructor, InstancedReference, IsPlainOldData)
-	unsigned char                                      UnknownData01[0x8];                                       // 0x0040(0x0008) MISSED OFFSET
-};
-
-// ScriptStruct Engine.ActorPtr
-// 0x0008
-struct FActorPtr
-{
-	class AActor* Actor;                                                    // 0x0000(0x0008) (ZeroConstructor, IsPlainOldData)
-};
-
-struct FScriptMulticastDelegate {
-
-};
-
-// 
-// 
-//			968
-//
 // Class Engine.Actor
 // 0x03A0 (0x03c8 - 0x0028)
 class AActor : public UObject
 {
 public:
-	char				pad_0028[86]; //0x0028
-	int16_t				IsMounted; //0x007E
-	char				pad_0080[72]; //0x0080
-	struct				FRepAttachment AttachmentReplication; //0x00C8
-	char				pad_0110[696]; //0x0110
+	unsigned char paddingp[0x03A0];
 
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class Engine.Actor");
 		return ptr;
 	}
-
-	class AActor* GetAttachParentActor();
-};
-
-// Function Engine.Actor.GetAttachParentActor
-struct AActor_GetAttachParentActor_Params
-{
-	class AActor* ReturnValue;                                              // (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData)
-};
-
-// ScriptStruct Engine.UniqueNetIdRepl
-// Size: 0x18 (Inherited: 0x00)
-struct FUniqueNetIdRepl {
-	char UnknownData_0[0x18]; // 0x00(0x18)
 };
 
 // Class Engine.Pawn
@@ -599,27 +410,6 @@ public:
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class Engine.Controller");
-		return ptr;
-	}
-};
-
-// ScriptStruct Engine.ActiveForceFeedbackEffect
-// 0x0018
-struct FActiveForceFeedbackEffect
-{
-	unsigned char padding[0x18];
-};
-
-// Class Engine.PlayerCameraManager
-// 0x1880 (0x1C50 - 0x03D0)
-class APlayerCameraManager : public AActor
-{
-public:
-	unsigned char padding[0x1880];
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class Engine.PlayerCameraManager");
 		return ptr;
 	}
 };
@@ -687,20 +477,6 @@ public:
 
 };
 
-// ScriptStruct StatusEffects.StatusDescriptor
-// Size: 0x04 (Inherited: 0x00)
-struct FStatusDescriptor {
-	float Intensity; // 0x00(0x04)
-};
-
-// ScriptStruct StatusEffects.Status
-// Size: 0x18 (Inherited: 0x00)
-struct FStatus {
-	struct TArray<struct UClass*> Type; // 0x00(0x10)
-	struct FStatusDescriptor Descriptor; // 0x10(0x04)
-	char UnknownData_14[0x4]; // 0x14(0x04)
-};
-
 // Class Engine.Character
 // 0x01A0 (0x05E0 - 0x0448)
 class ACharacter : public APawn {
@@ -709,217 +485,6 @@ public:
 
 	float GetTargetFOV(class AAthenaPlayerCharacter* Character);
 	void SetTargetFOV(class AAthenaPlayerCharacter* Character, float TargetFOV);
-};
-
-// ScriptStruct Athena.ServerWieldSet
-// 0x001C
-struct FServerWieldSet
-{
-	unsigned char padding[0x1C];
-};
-
-// ScriptStruct Animation.Docker
-// 0x0050
-struct FDocker
-{
-	unsigned char                                      UnknownData00[0x50];                                      // 0x0000(0x0050) MISSED OFFSET
-};
-
-// Class Athena.WieldableItem
-// 0x03B8 (0x0780 - 0x03C8)
-class AWieldableItem : public AActor
-{
-public:
-	unsigned char paddingp[0x3B0];
-};
-
-// Class Athena.SkeletalMeshWieldableItem
-// 0x0000 (0x0780 - 0x0780)
-class ASkeletalMeshWieldableItem : public AWieldableItem
-{
-public:
-
-};
-
-// ScriptStruct Athena.ProjectileShotParams
-// 0x001C
-struct FProjectileShotParams
-{
-	unsigned char paddingp[0x1C];
-};
-
-// ScriptStruct Athena.WeaponProjectileParams
-// 0x00B0
-struct FWeaponProjectileParams
-{
-	unsigned char padding[0xB0];
-};
-
-// Enum Athena.EAimSensitivitySettingCategory
-enum class EAimSensitivitySettingCategory : uint8_t
-{
-	EAimSensitivitySettingCategory__Invalid = 0,
-	EAimSensitivitySettingCategory__Blunderbuss = 1,
-	EAimSensitivitySettingCategory__Flintlock = 2,
-	EAimSensitivitySettingCategory__EyeOfReach = 3,
-	EAimSensitivitySettingCategory__Spyglass = 4,
-	EAimSensitivitySettingCategory__TridentOfDarkTides = 5,
-	EAimSensitivitySettingCategory__EAimSensitivitySettingCategory_MAX = 6
-};
-
-// Class WwiseAudio.WwiseEvent
-// 0x0028 (0x0050 - 0x0028)
-class UWwiseEvent : public UObject
-{
-public:
-	unsigned char padding[0x28];
-};
-
-// ScriptStruct Athena.AudioEmitterParameters
-// 0x0010
-struct FAudioEmitterParameters
-{
-	unsigned char padding[0x10];
-};
-
-// ScriptStruct Athena.KnockBackInfo
-// 0x0050
-struct FKnockBackInfo
-{
-	unsigned char padding[0x50];
-};
-
-// ScriptStruct Athena.ProjectileWeaponParameters
-// 0x01E8
-struct FProjectileWeaponParameters
-{
-	int                                                AmmoClipSize;                                             // 0x0000(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	int                                                AmmoCostPerShot;                                          // 0x0004(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	float                                              EquipDuration;                                            // 0x0008(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	float                                              IntoAimingDuration;                                       // 0x000C(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	float                                              RecoilDuration;                                           // 0x0010(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	float                                              ReloadDuration;                                           // 0x0014(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	struct FProjectileShotParams                       HipFireProjectileShotParams;                              // 0x0018(0x001C) (Edit, BlueprintVisible)
-	struct FProjectileShotParams                       AimDownSightsProjectileShotParams;                        // 0x0034(0x001C) (Edit, BlueprintVisible)
-	int                                                InaccuracySeed;                                           // 0x0050(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	float                                              ProjectileDistributionMaxAngle;                           // 0x0054(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	int                                                NumberOfProjectiles;                                      // 0x0058(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	float                                              ProjectileMaximumRange;                                   // 0x005C(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	float                                              ProjectileHitScanMaximumRange;                            // 0x0060(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	float                                              ProjectileDamage;                                         // 0x0064(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	float                                              ProjectileDamageMultiplierAtMaximumRange;                 // 0x0068(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	unsigned char                                      UnknownData00[0x4];                                       // 0x006C(0x0004) MISSED OFFSET
-	class UClass* DamagerType;                                              // 0x0070(0x0008) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	class UClass* ProjectileId;                                             // 0x0078(0x0008) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	struct FWeaponProjectileParams                     AmmoParams;                                               // 0x0080(0x00B0) (Edit, BlueprintVisible)
-	bool                                               UsesScope;                                                // 0x0130(0x0001) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	unsigned char                                      UnknownData01[0x3];                                       // 0x0131(0x0003) MISSED OFFSET
-	float                                              ZoomedRecoilDurationIncrease;                             // 0x0134(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	float                                              SecondsUntilZoomStarts;                                   // 0x0138(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	float                                              SecondsUntilPostStarts;                                   // 0x013C(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	float                                              WeaponFiredAINoiseRange;                                  // 0x0140(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	float                                              MaximumRequestPositionDelta;                              // 0x0144(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	float                                              MaximumRequestAngleDelta;                                 // 0x0148(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	float                                              TimeoutTolerance;                                         // 0x014C(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	float                                              AimingMoveSpeedScalar;                                    // 0x0150(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	TEnumAsByte<EAimSensitivitySettingCategory>        AimSensitivitySettingCategory;                            // 0x0154(0x0001) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	unsigned char                                      UnknownData02[0x3];                                       // 0x0155(0x0003) MISSED OFFSET
-	float                                              InAimFOV;                                                 // 0x0158(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	float                                              BlendSpeed;                                               // 0x015C(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	class UWwiseEvent* DryFireSfx;                                               // 0x0160(0x0008) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	struct FAudioEmitterParameters                     AudioEmitterParameters;                                   // 0x0168(0x0010) (Edit, BlueprintVisible)
-	struct FName                                       RumbleTag;                                                // 0x0178(0x0008) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	bool                                               KnockbackEnabled;                                         // 0x0180(0x0001) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	unsigned char                                      UnknownData03[0x3];                                       // 0x0181(0x0003) MISSED OFFSET
-	struct FKnockBackInfo                              KnockbackParams;                                          // 0x0184(0x0050) (Edit, BlueprintVisible)
-	bool                                               StunEnabled;                                              // 0x01D4(0x0001) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	unsigned char                                      UnknownData04[0x3];                                       // 0x01D5(0x0003) MISSED OFFSET
-	float                                              StunDuration;                                             // 0x01D8(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-	struct FVector                                     TargetingOffset;                                          // 0x01DC(0x000C) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData)
-};
-
-// Enum Athena.EProjectileWeaponState
-enum class EProjectileWeaponState : uint8_t
-{
-	EProjectileWeaponState__Equipping = 0,
-	EProjectileWeaponState__Idle = 1,
-	EProjectileWeaponState__Aiming = 2,
-	EProjectileWeaponState__Recoil = 3,
-	EProjectileWeaponState__Reloading = 4,
-	EProjectileWeaponState__InterruptedReload = 5,
-	EProjectileWeaponState__EProjectileWeaponState_MAX = 6
-};
-
-// Enum Athena.EProjectileWeaponType
-enum class EProjectileWeaponType : uint8_t
-{
-	EProjectileWeaponType__Pistol = 0,
-	EProjectileWeaponType__Blunderbuss = 1,
-	EProjectileWeaponType__EyeOfReach = 2,
-	EProjectileWeaponType__MAX = 3,
-	EProjectileWeaponType__EProjectileWeaponType_MAX = 4
-};
-
-// Class Athena.ProjectileWeapon
-// 0x02D0 (0x0A50 - 0x0780)
-class AProjectileWeapon : public ASkeletalMeshWieldableItem
-{
-public:
-	unsigned char                                      UnknownData00[0x30];                                      // 0x0780(0x0030) MISSED OFFSET
-	class UInventoryItemComponent* InventoryItem;                                            // 0x07B0(0x0008) (Edit, BlueprintVisible, ExportObject, ZeroConstructor, EditConst, InstancedReference, IsPlainOldData)
-	unsigned char									   padding[0x14];
-	struct FProjectileWeaponParameters                 WeaponParameters;                                         // 0x07C8(0x01E8) (Edit, BlueprintVisible)
-	TEnumAsByte<EProjectileWeaponState>                State;                                                    // 0x09B0(0x0001) (Net, ZeroConstructor, IsPlainOldData)
-	unsigned char                                      UnknownData01[0x3];                                       // 0x09B1(0x0003) MISSED OFFSET
-	int                                                AmmoLeft;                                                 // 0x09B4(0x0004) (Net, ZeroConstructor, IsPlainOldData)
-	class UAimSensitivityComponent* AimSensitivityComponent;                                  // 0x09B8(0x0008) (Edit, ExportObject, ZeroConstructor, EditConst, InstancedReference, IsPlainOldData)
-	unsigned char                                      UnknownData02[0x10];                                      // 0x09C0(0x0010) MISSED OFFSET
-	TEnumAsByte<EProjectileWeaponType>                 ProjectileWeaponType;                                     // 0x09D0(0x0001) (Edit, ZeroConstructor, DisableEditOnInstance, IsPlainOldData)
-	unsigned char                                      UnknownData03[0x3];                                       // 0x09D1(0x0003) MISSED OFFSET
-	float                                              MaxAcceptableAttackTimeStampDelta;                        // 0x09D4(0x0004) (Edit, ZeroConstructor, IsPlainOldData)
-	unsigned char                                      UnknownData04[0x4];                                       // 0x09D8(0x0004) MISSED OFFSET
-	float                                              DistanceBeforeGravity;                                    // 0x09DC(0x0004) (ZeroConstructor, IsPlainOldData)
-	float                                              NameplateVisibilityRangeExtensionFactorWhileAiming;       // 0x09E0(0x0004) (Edit, ZeroConstructor, DisableEditOnInstance, IsPlainOldData)
-	unsigned char                                      UnknownData05[0x35];                                      // 0x09E4(0x0035) MISSED OFFSET
-	bool                                               ShouldShowAmmoUI;                                         // 0x0A19(0x0001) (Edit, ZeroConstructor, DisableEditOnInstance, IsPlainOldData)
-	unsigned char                                      UnknownData06[0x36];                                      // 0x0A1A(0x0036) MISSED OFFSET
-};
-
-// BlueprintGeneratedClass BP_FlintlockPistol.BP_FlintlockPistol_C
-// 0x0038 (0x0A88 - 0x0A50)
-class ABP_FlintlockPistol_C : public AProjectileWeapon
-{
-public:
-	unsigned char paddingp[0x38];
-};
-
-// Class Athena.WieldedItemComponent
-// 0x0130 (0x0410 - 0x02E0)
-class UWieldedItemComponent
-{
-public:
-	char pad_0000[752]; //0x0000
-	class AActor* CurrentlyWieldedItem; //0x02F0
-	char pad_02F8[288]; //0x02F8
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class Athena.WieldedItemComponent");
-		return ptr;
-	}
-};
-
-//2152
-// Class Athena.Spyglass
-// 0x00F0 (0x0870 - 0x0780)
-class ASpyglass
-{
-public:
-	char pad_0000[1988]; //0x0000
-	float InAimFOV; //0x07C4
-	char pad_07C8[96]; //0x07C8
-	bool IsAiming; //0x0828
-	char pad_0829[71]; //0x0829
 };
 
 // Class Athena.AthenaCharacter
@@ -934,38 +499,6 @@ public:
 		static auto ptr = UObject::FindClass("Class Athena.AthenaCharacter");
 		return ptr;
 	}
-};
-
-// Class Athena.Cannon
-// 0x0790 (0x0C90 - 0x0500)
-class ACannon
-{
-public:
-	char pad_0000[1664]; //0x0000
-	float DefaultFOV; //0x0680
-	float AimFOV; //0x0684
-	char pad_0688[64]; //0x0688
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class Athena.Cannon");
-		return ptr;
-	}
-};
-
-// BlueprintGeneratedClass BP_Cannon.BP_Cannon_C
-// 0x0018 (0x0CA8 - 0x0C90)
-class ABP_Cannon_C : public ACannon
-{
-public:
-	unsigned char padding[0x0018];
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("BlueprintGeneratedClass BP_Cannon.BP_Cannon_C");
-		return ptr;
-	}
-
 };
 
 // Class Athena.AthenaPlayerCharacter

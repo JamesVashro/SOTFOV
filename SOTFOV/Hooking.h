@@ -31,7 +31,6 @@ namespace frick {
 		static inline decltype(SetCursor)* SetCursorOriginal = nullptr;
 
 		bool GoodToApply;
-		PostRender oPostRender{};
 	};
 	inline Hooking* hooking{};
 }

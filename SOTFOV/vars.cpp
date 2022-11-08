@@ -7,11 +7,7 @@ namespace frick {
 	}
 
 	Vars::~Vars() {
-		FOV = 105.f;
-		sniperFOV = 50.f;
-		pistolFOV = 85.f;
-		blunderFOV = 85.f;
-		spyGlassFOV = 28.f;
+		FOV = 104.f;
 
 		GWorld = nullptr;
 		playerCharacter = nullptr;

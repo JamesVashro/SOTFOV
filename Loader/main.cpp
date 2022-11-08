@@ -49,7 +49,7 @@ void DoSteamInjection(std::string dllOutPath) {
     LPVOID RemoteString, LoadLibAddy;
 
     while (!pid) {
-        pid = GetProcessId("Phasmophobia.exe");
+        pid = GetProcessId("SoTGame.exe");
         Sleep(30);
     }
 

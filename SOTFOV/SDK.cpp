@@ -100,24 +100,3 @@ void ACharacter::SetTargetFOV(class AAthenaPlayerCharacter* Character, float Tar
 
 	fn->FunctionFlags = flags;
 }
-
-// Function Engine.Actor.GetAttachParentActor
-// (Native, Public, BlueprintCallable, BlueprintPure, Const)
-// Parameters:
-// class AActor*                  ReturnValue                    (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData)
-
-class AActor* AActor::GetAttachParentActor()
-{
-	static auto fn = UObject::FindObject<UFunction>("Function Engine.Actor.GetAttachParentActor");
-
-	AActor_GetAttachParentActor_Params params;
-
-	auto flags = fn->FunctionFlags;
-	fn->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(this, fn, &params);
-
-	fn->FunctionFlags = flags;
-
-	return params.ReturnValue;
-}
