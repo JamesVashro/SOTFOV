@@ -87,7 +87,7 @@
     <ClInclude Include="C:\Users\james\Desktop\Game hacking\ImGui-Addons-master\FileBrowser\Dirent\dirent.h">
       <Filter>Source Files\imgui\Dirent</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\james\Desktop\Game hacking\ImGui-Addons-master\FileBrowser\ImGuiFileBrowser.h">
+    <ClInclude Include="imgui\ImGuiFileBrowser.h">
       <Filter>Source Files\imgui</Filter>
     </ClInclude>
   </ItemGroup>
@@ -140,7 +140,7 @@
     <ClCompile Include="SetCursorHook.cpp">
       <Filter>Source Files\hooking</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\james\Desktop\Game hacking\ImGui-Addons-master\FileBrowser\ImGuiFileBrowser.cpp">
+    <ClCompile Include="imgui\ImGuiFileBrowser.cpp">
       <Filter>Source Files\imgui</Filter>
     </ClCompile>
   </ItemGroup>
