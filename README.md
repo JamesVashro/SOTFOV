@@ -3,7 +3,8 @@ FOV changer tool for sea of thieves
 
 There are 2 branches. The Get-Target-FOV branch is the classic way for my FOV, not complex but may have performance issues in certain situations, and the OneSlider branch is a version that contains only one slider that uses different calculations.
 
-One thing to note, The tool crashes from time to time for an unknown reason. I havnt had the time lately to debug it more and more so maybe some of you can find the cause.
+The code in here could use alot of cleaning but works pretty well. Performance could also be improved i think.
+The File Browser is not mine, i used this one: https://github.com/gallickgunner/ImGui-Addons
 
 
 This is a Field Of View changer tool. customizable to a crazy extent.
