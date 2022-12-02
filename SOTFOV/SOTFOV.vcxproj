@@ -161,12 +161,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="C:\Users\james\Desktop\Game hacking\ImGui-Addons-master\FileBrowser\Dirent\dirent.h" />
-    <ClInclude Include="C:\Users\james\Desktop\Game hacking\ImGui-Addons-master\FileBrowser\ImGuiFileBrowser.h" />
     <ClInclude Include="FindShit.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Hooking.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
+    <ClInclude Include="imgui\ImGuiFileBrowser.h" />
     <ClInclude Include="imgui\imgui_impl_dx11.h" />
     <ClInclude Include="imgui\imgui_impl_win32.h" />
     <ClInclude Include="imgui\imgui_internal.h" />
@@ -181,10 +181,10 @@
     <ClInclude Include="vars.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="C:\Users\james\Desktop\Game hacking\ImGui-Addons-master\FileBrowser\ImGuiFileBrowser.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Hooking.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
+    <ClCompile Include="imgui\ImGuiFileBrowser.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
     <ClCompile Include="imgui\imgui_impl_dx11.cpp" />
     <ClCompile Include="imgui\imgui_impl_win32.cpp" />

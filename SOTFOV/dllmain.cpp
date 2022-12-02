@@ -125,12 +125,6 @@ void doThing(HMODULE hModule) {
     while (!GetAsyncKeyState(VK_DELETE) & 1) {
         if (frick::vars->performance)
             std::this_thread::sleep_for(std::chrono::milliseconds(5));
-        else {
-            if (laps % 75 == 0)
-                laps = 0;
-            else
-                continue;
-        }
 
         if (!frick::vars->localPlayer->PlayerController)
             continue;

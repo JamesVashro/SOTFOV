@@ -967,12 +967,11 @@ public:
 	}
 
 };
-
 // Class Athena.AthenaPlayerCharacter
-// 0x0F10 (0x1AB0 - 0x0BA0)
+// 0x10C0 (0x1C70 - 0x0BB0)
 class AAthenaPlayerCharacter : public AAthenaCharacter {
 public:
-	unsigned char padding[0x0F10];
+	unsigned char padding[0x10C0];
 };
 
 // Function Athena.FOVHandlerFunctions.SetTargetFOV
