@@ -1,17 +1,7 @@
-﻿  Hooking.cpp
-  PresentHook.cpp
-  SDK.cpp
-  SetCursorHook.cpp
-  SetCursorPosHook.cpp
-  WndProcHook.cpp
-  dllmain.cpp
-  menu.cpp
-  Renderer.cpp
-  vars.cpp
+﻿  ImGuiFileBrowser.cpp
+  Previous IPDB and IOBJ mismatch, fall back to full compilation.
 LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
   Generating code
-  0 of 1495 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+  All 1495 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   SOTFOV.vcxproj -> D:\Visual Studios Projects\SOTFOV Current Release\x64\Release\SOTFOV.dll
