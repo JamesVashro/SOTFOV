@@ -1,6 +1,14 @@
 # SOTFOV
 FOV changer tool for sea of thieves
 
+<<<<<<< HEAD
+=======
+There are 2 branches. The Get-Target-FOV branch is the classic way for my FOV, not complex but may have performance issues in certain situations, and the OneSlider branch is a version that contains only one slider that uses different calculations.
+
+One thing to note, The tool crashes from time to time for an unknown reason. I havnt had the time lately to debug it more and more so maybe some of you can find the cause.
+
+
+>>>>>>> c8f296c235a1470eaef7c4a10ad7097aa86e48b9
 This is a Field Of View changer tool. customizable to a crazy extent.
 All weapons have different sliders.
 
