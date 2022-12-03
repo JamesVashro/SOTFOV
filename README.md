@@ -41,6 +41,7 @@ Useful for if you like the layout of the sliders but want a different FOV
 
 
 ================================================
+
 IMPORTANT
 
 If you try to build and get a C1047 error, use Visual Studios 2019
