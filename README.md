@@ -36,3 +36,11 @@ Checking this box and moving the sliders will link them together so they move in
 Useful for if you like the layout of the sliders but want a different FOV
 
 ![link](https://user-images.githubusercontent.com/92900622/178388512-b4986db9-50d0-4918-8dc9-3770edfc1b26.png)
+
+
+
+
+================================================
+IMPORTANT
+
+If you try to build and get a C1047 error, use Visual Studios 2019
