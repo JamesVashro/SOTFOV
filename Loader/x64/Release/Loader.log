@@ -1,6 +1,6 @@
 ﻿  main.cpp
   Generating code
-  Previous IPDB and IOBJ mismatch, fall back to full compilation.
+  Previous IPDB not found, fall back to full compilation.
   All 535 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
-  Loader.vcxproj -> D:\Visual Studios Projects\PhasmophobiaCheat\x64\Release\Loader.exe
+  Loader.vcxproj -> D:\Visual Studios Projects\SOTFOV Current Release\x64\Release\Loader.exe
