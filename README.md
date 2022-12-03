@@ -15,6 +15,7 @@ Sprinting FOV increases your fov while sprinting
 
 
 ================================================
+
 IMPORTANT
 
 If you try to build and get a C1047 error, use Visual Studios 2019
