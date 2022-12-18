@@ -549,20 +549,25 @@ namespace imgui_addons
         ImGui::SetCursorPosX(buttons_xpos);
         if (dialog_mode == DialogMode::SAVE)
         {
+            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0, 0, 0, 255));
             // If directory selected and Input Text Bar doesn't have focus, render Open Button
             if (selected_idx != -1 && is_dir && ImGui::GetFocusID() != ImGui::GetID("##FileNameInput"))
             {
+
                 if (ImGui::Button("Open", ImVec2(button_width, 0)))
                     show_error |= !(onDirClick(selected_idx));
+
             }
             else if (ImGui::Button("Save", ImVec2(button_width, 0)) && strlen(input_fn) > 0)
             {
                 selected_fn = std::string(input_fn);
                 validate_file = true;
             }
+            ImGui::PopStyleColor();
         }
         else
         {
+            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0, 0, 0, 255));
             if (ImGui::Button("Open", ImVec2(button_width, 0)))
             {
                 //It's possible for both to be true at once (user selected directory but input bar has some text. In this case we chose to open the directory instead of opening the file.
@@ -575,12 +580,14 @@ namespace imgui_addons
                     validate_file = true;
                 }
             }
-
+            ImGui::PopStyleColor();
             //Render Select Button if in SELECT Mode
             if (dialog_mode == DialogMode::SELECT)
             {
                 //Render Select Button
                 ImGui::SameLine();
+                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0, 0, 0, 255));
+
                 if (ImGui::Button("Select", ImVec2(button_width, 0)))
                 {
                     if (strlen(input_fn) > 0)
@@ -589,14 +596,17 @@ namespace imgui_addons
                         validate_file = true;
                     }
                 }
+                ImGui::PopStyleColor();
+
             }
         }
-
         //Render Cancel Button
         ImGui::SameLine();
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0, 0, 0, 255));
         if (ImGui::Button("Cancel", ImVec2(button_width, 0)))
             closeDialog();
 
+        ImGui::PopStyleColor();
         return show_error;
     }
 

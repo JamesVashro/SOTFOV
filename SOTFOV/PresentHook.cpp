@@ -37,6 +37,24 @@ namespace frick {
 			//vars->drawList = ImGui::GetBackgroundDrawList();
 			ID3D11Texture2D* backBuffer;
 
+			ImGuiStyle& style = ImGui::GetStyle();
+
+			style.Colors[ImGuiCol_WindowBg] = ImColor(12, 12, 12, 240);
+			style.Colors[ImGuiCol_TitleBg] = ImColor(12, 12, 12);
+			style.Colors[ImGuiCol_TitleBgActive] = ImColor(12, 12, 12);
+
+			style.Colors[ImGuiCol_Button] = ImColor(255, 255, 255);
+			style.Colors[ImGuiCol_ButtonActive] = ImColor(0, 255, 0);
+			style.Colors[ImGuiCol_ButtonHovered] = ImColor(155, 155, 155);
+
+			style.Colors[ImGuiCol_HeaderHovered] = ImColor(80, 80, 80);
+			style.Colors[ImGuiCol_HeaderActive] = ImColor(100, 100, 100);
+			style.Colors[ImGuiCol_Header] = ImColor(41, 41, 41);
+
+			style.Colors[ImGuiCol_FrameBg] = ImColor(41, 41, 41);
+			style.Colors[ImGuiCol_FrameBgHovered] = ImColor(80, 80, 80);
+			style.Colors[ImGuiCol_FrameBgActive] = ImColor(80, 80, 80);
+
 			__this->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backBuffer);
 			renderer->device->CreateRenderTargetView(backBuffer, NULL, &renderer->targetView);
 			backBuffer->Release();

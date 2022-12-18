@@ -291,6 +291,8 @@ namespace frick {
                         vars->playerCharacter->SetTargetFOV(vars->AACharacter, vars->cannonFOV);
                 }
             }
+            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0, 0, 0, 255));
+            ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1);
             if (ImGui::Button("Reset")) {
                 vars->FOV = vars->default_FOV;
                 vars->sprintingFOV = vars->default_sprintingFOV;
@@ -309,6 +311,8 @@ namespace frick {
             ImGui::SameLine();
             if (ImGui::Button(vars->SettingHotkey ? "<Press Any Key>" : "Hot Key"))
                 vars->SettingHotkey = true;
+            ImGui::PopStyleVar();
+            ImGui::PopStyleColor();
             
         }
         ImGui::End();
