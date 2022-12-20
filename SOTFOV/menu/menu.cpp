@@ -93,7 +93,7 @@ namespace frick {
         ImGui::PushStyleVar(ImGuiStyleVar_GrabRounding, 10);
         ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 5);
 
-        if (ImGui::Begin("            Made by - Valasco#6113", &menu.opened, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar)) {
+        if (ImGui::Begin("            Made by - Valasco#6113", &menu.opened, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar)) {
             if (ImGui::BeginMenuBar()) {
                 if (!vars->simpleMode) {
                     if (ImGui::BeginMenu("File")) {
