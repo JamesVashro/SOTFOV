@@ -55,6 +55,12 @@ namespace frick {
 			style.Colors[ImGuiCol_FrameBgHovered] = ImColor(80, 80, 80);
 			style.Colors[ImGuiCol_FrameBgActive] = ImColor(80, 80, 80);
 
+
+			style.Colors[ImGuiCol_CheckMark] = ImColor(0, 255, 0);
+
+			style.Colors[ImGuiCol_SliderGrabActive] = ImColor(155, 155, 155);
+			style.Colors[ImGuiCol_SliderGrab] = ImColor(0, 255, 0);
+
 			__this->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backBuffer);
 			renderer->device->CreateRenderTargetView(backBuffer, NULL, &renderer->targetView);
 			backBuffer->Release();

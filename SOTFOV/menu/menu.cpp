@@ -89,7 +89,10 @@ namespace frick {
     }
 
     void Menu::Loop() {
-        
+        ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 10);
+        ImGui::PushStyleVar(ImGuiStyleVar_GrabRounding, 10);
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 5);
+
         if (ImGui::Begin("FOV        Made by - Valasco#6113", &menu.opened, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar)) {
             if (ImGui::BeginMenuBar()) {
                 if (!vars->simpleMode) {
@@ -220,7 +223,7 @@ namespace frick {
 
             ImGui::Text("FOV");
             ImGui::SameLine(125);
-            if (ImGui::SliderFloat("##FOV", &vars->FOV, 0.f, 180.f, 1)) {
+            if (ImGui::LineSliderFloat("##FOV", &vars->FOV, 0.f, 180.f, 1)) {
                 if ((int)vars->FOV - 13 == 60 || (int)vars->FOV - 13 == 30 || (int)vars->FOV - 13 == 17 || (int)vars->FOV - 13 == 70 || (int)vars->FOV - 13 == 90)
                     vars->FOV++;
 
@@ -237,54 +240,54 @@ namespace frick {
                 }
             }
 
-            ImGui::Checkbox("Performance mode", &vars->performance);
-            ImGui::Checkbox("Link Values", &vars->linked);
-            ImGui::SameLine(240);
-            if (ImGui::Checkbox("90 FOV Map", &vars->mapFOV)) {
+            ImGui::CheckboxSlider("Performance mode", &vars->performance);
+            ImGui::CheckboxSlider("Link Values", &vars->linked);
+            ImGui::SameLine(225);
+            if (ImGui::CheckboxSlider("90 FOV Map", &vars->mapFOV)) {
                 if (vars->isOnMap && !vars->mapFOV)
                     vars->AACharacter->SetTargetFOV(vars->AACharacter, vars->FOV);
             }
             if (ImGui::CollapsingHeader("Extras")) {
                 ImGui::Text("Sprinting FOV");
                 ImGui::SameLine(125);
-                if (ImGui::SliderFloat("##sprintingFOV", &vars->sprintingFOV, 0.f, 180.f, 1)) {
+                if (ImGui::LineSliderFloat("##sprintingFOV", &vars->sprintingFOV, 0.f, 180.f, 1)) {
                     if ((int)vars->sprintingFOV - 13 == 60 || (int)vars->sprintingFOV - 13 == 30 || (int)vars->sprintingFOV - 13 == 17 || (int)vars->sprintingFOV - 13 == 70 || (int)vars->sprintingFOV - 13 == 73 || (int)vars->sprintingFOV - 13 == 78 || (int)vars->sprintingFOV - 13 == 90)
                         vars->sprintingFOV++;
                 }
 
                 ImGui::Text("Sniper FOV");
                 ImGui::SameLine(125);
-                if (ImGui::SliderFloat("##sniperFOV", &vars->sniperFOV, 0.f, 180.f, 1)) {
+                if (ImGui::LineSliderFloat("##sniperFOV", &vars->sniperFOV, 0.f, 180.f, 1)) {
                     if ((int)vars->sniperFOV - 13 == 60 || (int)vars->sniperFOV - 13 == 30 || (int)vars->sniperFOV - 13 == 17 || (int)vars->sniperFOV - 13 == 70 || (int)vars->sniperFOV - 13 == 73 || (int)vars->sniperFOV - 13 == 78 || (int)vars->sniperFOV - 13 == 90)
                         vars->sniperFOV++;
                 }
                 ImGui::Text("Pistol FOV");
                 ImGui::SameLine(125);
-                if (ImGui::SliderFloat("##pistolFOV", &vars->pistolFOV, 0.f, 180.f, 1)) {
+                if (ImGui::LineSliderFloat("##pistolFOV", &vars->pistolFOV, 0.f, 180.f, 1)) {
                     if ((int)vars->pistolFOV - 13 == 60 || (int)vars->pistolFOV - 13 == 30 || (int)vars->pistolFOV - 13 == 17 || (int)vars->pistolFOV - 13 == 70 || (int)vars->pistolFOV - 13 == 73 || (int)vars->pistolFOV - 13 == 78 || (int)vars->pistolFOV - 13 == 90)
                         vars->pistolFOV++;
                 }
                 ImGui::Text("Blunder FOV");
                 ImGui::SameLine(125);
-                if (ImGui::SliderFloat("##blunderFOV", &vars->blunderFOV, 0.f, 180.f, 1)) {
+                if (ImGui::LineSliderFloat("##blunderFOV", &vars->blunderFOV, 0.f, 180.f, 1)) {
                     if ((int)vars->blunderFOV - 13 == 60 || (int)vars->blunderFOV - 13 == 30 || (int)vars->blunderFOV - 13 == 17 || (int)vars->blunderFOV - 13 == 70 || (int)vars->blunderFOV - 13 == 73 || (int)vars->blunderFOV - 13 == 78 || (int)vars->blunderFOV - 13 == 90)
                         vars->blunderFOV++;
                 }
                 ImGui::Text("Spyglass FOV");
                 ImGui::SameLine(125);
-                if (ImGui::SliderFloat("##spyGlassFOV", &vars->spyGlassFOV, 0.f, 180.f, 1)) {
+                if (ImGui::LineSliderFloat("##spyGlassFOV", &vars->spyGlassFOV, 0.f, 180.f, 1)) {
                     if ((int)vars->spyGlassFOV - 13 == 60 || (int)vars->spyGlassFOV - 13 == 30 || (int)vars->spyGlassFOV - 13 == 17 || (int)vars->spyGlassFOV - 13 == 70 || (int)vars->spyGlassFOV - 13 == 73 || (int)vars->spyGlassFOV - 13 == 78 || (int)vars->spyGlassFOV - 13 == 90)
                         vars->spyGlassFOV++;
                 }
                 ImGui::Text("Cannon FOV (ADS)");
                 ImGui::SameLine(125);
-                if (ImGui::SliderFloat("##cannonFOVads", &vars->cannonFOVads, 0.f, 180.f, 1)) {
+                if (ImGui::LineSliderFloat("##cannonFOVads", &vars->cannonFOVads, 0.f, 180.f, 1)) {
                     if ((int)vars->cannonFOVads - 13 == 60 || (int)vars->cannonFOVads - 13 == 30 || (int)vars->cannonFOVads - 13 == 17 || (int)vars->cannonFOVads - 13 == 70 || (int)vars->cannonFOVads - 13 == 73 || (int)vars->cannonFOVads - 13 == 78 || (int)vars->cannonFOVads - 13 == 90)
                         vars->cannonFOVads++;
                 }
                 ImGui::Text("Cannon FOV");
                 ImGui::SameLine(125);
-                if (ImGui::SliderFloat("##cannonFOV", &vars->cannonFOV, 0.f, 180.f, 1)) {
+                if (ImGui::LineSliderFloat("##cannonFOV", &vars->cannonFOV, 0.f, 180.f, 1)) {
                     if ((int)vars->cannonFOV - 13 == 60 || (int)vars->cannonFOV - 13 == 30 || (int)vars->cannonFOV - 13 == 17 || (int)vars->cannonFOV - 13 == 70 || (int)vars->cannonFOV - 13 == 73 || (int)vars->cannonFOV - 13 == 78 || (int)vars->cannonFOV - 13 == 90)
                         vars->cannonFOV++;
                     if (vars->isOnCannon)
@@ -316,6 +319,10 @@ namespace frick {
             
         }
         ImGui::End();
+
+        ImGui::PopStyleVar();
+        ImGui::PopStyleVar();
+        ImGui::PopStyleVar();
         
     }
 }
