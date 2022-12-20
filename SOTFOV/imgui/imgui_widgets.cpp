@@ -3134,19 +3134,19 @@ bool ImGui::LineSliderScalar(const char* label, ImGuiDataType data_type, void* p
                 temp_input_is_active = true;
         }
     }
-    float last_active_id_timer = g.LastActiveIdTimer;
+    float last_active_id_timer = g.HoveredIdTimer;
     bool grabbed = g.ActiveId == id;
 
-    if (g.LastActiveIdTimer == 0.f && g.LastActiveId == id && !grabbed)
-        g.LastActiveIdTimer = last_active_id_timer;
+    if (g.HoveredIdTimer == 0.f && g.HoveredId == id && !hovered)
+        g.HoveredIdTimer = last_active_id_timer;
 
 
     float t = grabbed ? 1.0f : 0.0f;
 
-    if (g.LastActiveId == id)
+    if (g.HoveredId == id)
     {
-        float anim = ImSaturate(g.LastActiveIdTimer / 0.15f);
-        t = grabbed ? (anim) : (1.0f - anim);
+        float anim = ImSaturate(g.HoveredIdTimer / 0.15f);
+        t = hovered ? (anim) : (1.0f - anim);
     }
 
     if (temp_input_is_active)
@@ -3169,8 +3169,9 @@ bool ImGui::LineSliderScalar(const char* label, ImGuiDataType data_type, void* p
 
     ImVec2 delta = (grab_bb.Max - grab_bb.Min) / 2;
 
-    // Render grab //and filled bar
-    RenderFrame(line_bb.Min, ImVec2(grab_bb.Min.x + delta.x, grab_bb.Min.y + height - 8), GetColorU32(ImGuiCol_CheckMark), false, g.Style.FrameRounding);
+    //Render Filled bar
+    //RenderFrame(line_bb.Min, ImVec2(grab_bb.Min.x + delta.x, grab_bb.Min.y + height - 8), GetColorU32(ImGuiCol_CheckMark), false, g.Style.FrameRounding);
+    window->DrawList->AddRectFilledMultiColor(line_bb.Min, ImVec2(grab_bb.Min.x + delta.x, grab_bb.Min.y + height - 8), ImColor(25, 31, 25), GetColorU32(ImGuiCol_CheckMark), GetColorU32(ImGuiCol_CheckMark), ImColor(25, 31, 25));
 
 
     if (grab_bb.Max.x > grab_bb.Min.x)

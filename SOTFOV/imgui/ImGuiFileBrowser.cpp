@@ -981,6 +981,7 @@ namespace imgui_addons
             float buttons_width = getButtonSize("Yes").x + getButtonSize("No").x + ImGui::GetStyle().ItemSpacing.x;
             ImGui::SetCursorPosX(ImGui::GetCursorPosX() + ImGui::GetWindowWidth() / 2.0f - buttons_width / 2.0f - ImGui::GetStyle().WindowPadding.x);
 
+            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0, 0, 0, 255));
             if (ImGui::Button("Yes", getButtonSize("Yes")))
             {
                 selected_path = current_path + selected_fn;
@@ -997,6 +998,7 @@ namespace imgui_addons
                 ret_val = false;
             }
             ImGui::EndPopup();
+            ImGui::PopStyleColor();
         }
         return ret_val;
     }
