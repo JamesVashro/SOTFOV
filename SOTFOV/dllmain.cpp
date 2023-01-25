@@ -19,8 +19,6 @@
 
 FILE* f;
 bool ADSing = false;
-ASpyglass* spyGlass = nullptr;
-AProjectileWeapon* weapon = nullptr;
 
 auto renderer = std::make_unique<frick::Renderer>();
 auto hooking = std::make_unique<frick::Hooking>();
@@ -48,12 +46,8 @@ void make_minidump(EXCEPTION_POINTERS* e)
     if (file.is_open()) {
         file << "AACharacter                    " << frick::vars->AACharacter << "\n";
         file << "PlayerCharacter                " << frick::vars->playerCharacter << "\n";
-        file << "Cheats                         " << frick::vars->cheats << "\n";
-        file << "Spyglass                       " << spyGlass << "\n";
-        file << "Weapon                         " << weapon << "\n";
-        file << "Current Output:                " << frick::vars->output << "\n";
         file << "Performance Mode:              " << frick::vars->performance << "\n";
-        file << "Currently Held Item:           " << frick::vars->HeldItemName << "\n";
+        file << "Just dont crash idiot";
     }
 
     file.close();
@@ -118,8 +112,6 @@ void doThing(HMODULE hModule) {
         printf("Dereferenced World: %p\n", world);
     }
 
-
-    std::string attachedToName = "";
     int laps = 0;
 
     while (!GetAsyncKeyState(VK_DELETE) & 1) {
@@ -147,12 +139,7 @@ void doThing(HMODULE hModule) {
         
         int result = (int)frick::vars->playerCharacter->GetTargetFOV(frick::vars->AACharacter);
         
-        frick::vars->output = "Checking if mounted";
-
         if (frick::vars->AACharacter->IsMounted == 69) {
-            if (attachedToName != "")
-                attachedToName = "";
-
             if (frick::vars->isOnCannon || frick::vars->isOnMap) {
                 frick::vars->isOnCannon = false;
                 frick::vars->isOnMap = false;
@@ -163,12 +150,8 @@ void doThing(HMODULE hModule) {
             goto SetFOV;
         }
         else if (frick::vars->AACharacter->IsMounted == 77) {
-            frick::vars->output = "Mounted to 79. checking if map";
-            attachedToName = frick::vars->AACharacter->AttachmentReplication.AttachComponent->GetName();
-
-            if (attachedToName == "TableMesh") {
+            if (frick::vars->AACharacter->AttachmentReplication.AttachComponent->GetName() == "TableMesh") {
                 frick::vars->isOnMap = true;
-                frick::vars->output = "Mounted To map, setting FOV";
 
                 goto SetFOV;
             }

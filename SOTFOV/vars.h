@@ -57,7 +57,7 @@ namespace frick {
 			static inline	bool							saveDialogOpen = false;
 			static inline	bool							openDialogOpen = false;
 			
-			static inline	std::string						output = "";
+
 			static inline	bool							performance = false;
 
 			static inline	UWorld**						GWorld = nullptr;

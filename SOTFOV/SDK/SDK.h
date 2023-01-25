@@ -702,10 +702,10 @@ struct FStatus {
 };
 
 // Class Engine.Character
-// 0x01A0 (0x05E0 - 0x0448)
+// 0x01A8
 class ACharacter : public APawn {
 public:
-	char pad_0440[416]; //0x0440
+	char pad_0440[424]; //0x0440
 
 	float GetTargetFOV(class AAthenaPlayerCharacter* Character);
 	void SetTargetFOV(class AAthenaPlayerCharacter* Character, float TargetFOV);
@@ -923,11 +923,11 @@ public:
 };
 
 // Class Athena.AthenaCharacter
-// 0x05D0 (0x0BB0 - 0x05E0)
+// 0x610
 class AAthenaCharacter : public ACharacter
 {
 public:
-	unsigned char paddingp[0x05D0];
+	unsigned char paddingp[0x610];
 
 	static UClass* StaticClass()
 	{
