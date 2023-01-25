@@ -51,7 +51,9 @@ void make_minidump(EXCEPTION_POINTERS* e)
     }
 
     file.close();
-    return;
+
+    std::this_thread::sleep_for(std::chrono::seconds(5));
+    CleanupAndShutdown(frick::vars->hModule);
 }
 
 LONG CALLBACK unhandled_handler(EXCEPTION_POINTERS* e)
