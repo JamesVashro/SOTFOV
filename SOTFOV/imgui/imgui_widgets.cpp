@@ -1082,7 +1082,7 @@ bool ImGui::CheckboxSlider(const char* label, bool* v)
 
     const float height = GetFrameHeight() * 0.85f;
     const float width = height * 1.75f;
-    const float rad = height / 2.f;
+    const float rad = height * 0.4f;
 
     const ImVec2 pos = window->DC.CursorPos;
     const ImRect total_bb(pos, pos + ImVec2(height + (label_size.x > 0.0f ? style.ItemInnerSpacing.x + label_size.x : 0.0f), label_size.y + style.FramePadding.y * 2.0f));
@@ -1122,7 +1122,7 @@ bool ImGui::CheckboxSlider(const char* label, bool* v)
 
     if (g.HoveredId == id)
     {
-        float anim = ImSaturate(g.HoveredIdTimer / 0.05f);
+        float anim = ImSaturate(g.HoveredIdTimer / 0.1f);
         t1 = hovered ? (anim) : (2.0f - anim);
     }
 
@@ -1130,11 +1130,16 @@ bool ImGui::CheckboxSlider(const char* label, bool* v)
     const ImRect small_bb(pos, pos + ImVec2(width, height));
     const ImRect line_bb(pos.x, pos.y + 8, pos.x + 18, pos.y + 12);
 
-    ImU32 circle_col = GetColorU32(ImGuiCol_CheckMark);
+    ImU32 circle_col = (*v ? GetColorU32(ImGuiCol_CheckMark) : GetColorU32(ImGuiCol_FrameBgActive));
+
 
     RenderNavHighlight(total_bb, id);
     RenderFrame(small_bb.Min, small_bb.Max, GetColorU32((held && hovered) ? ImGuiCol_FrameBgActive : hovered ? ImGuiCol_FrameBgHovered : ImGuiCol_FrameBg), false, style.FrameRounding);
-    window->DrawList->AddCircleFilled(ImVec2(pos.x + rad + t * (width - rad * 2.0f), pos.y + rad), (height / 2 + t1 * 2), (*v ? circle_col : GetColorU32(ImGuiCol_FrameBgActive)));
+
+    if (hovered)
+        window->DrawList->AddCircleFilled(ImVec2(pos.x + height / 2 + t * (width - height / 2 * 2.0f), pos.y + height / 2), ((rad + 1) + t1 * 1.5), GetColorU32(ImGuiCol_Text));
+
+    window->DrawList->AddCircleFilled(ImVec2(pos.x + height / 2 + t * (width - height / 2 * 2.0f), pos.y + height / 2), (rad + t1 * 1.5), circle_col);
 
 
     ImVec2 label_pos = ImVec2(small_bb.Max.x + style.ItemInnerSpacing.x, small_bb.Min.y + style.FramePadding.y);
