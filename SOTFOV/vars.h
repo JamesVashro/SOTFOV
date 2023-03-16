@@ -57,6 +57,7 @@ namespace frick {
 			static inline	bool							saveDialogOpen = false;
 			static inline	bool							openDialogOpen = false;
 			
+			static inline	bool							noZoom = false;
 
 			static inline	bool							performance = false;
 

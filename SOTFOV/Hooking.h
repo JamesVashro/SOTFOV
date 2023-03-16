@@ -15,6 +15,7 @@ namespace frick {
 		static LRESULT WINAPI WndProc_Hook(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 		static HCURSOR WINAPI SetCursorHook(HCURSOR hCursor);
 		static BOOL WINAPI SetCursorPosHook(int X, int Y);
+		static void ProcessEventHook(void* obj, UFunction* func, void* params);
 	};
 
 	class Hooking {
@@ -27,6 +28,7 @@ namespace frick {
 	public:
 		ID3DPresent original_present{};
 		WNDPROC original_wndproc{};
+		ProcessEvent oProcessEvent{};
 		static inline decltype(SetCursorPos)* SetCursorPosOriginal = nullptr;
 		static inline decltype(SetCursor)* SetCursorOriginal = nullptr;
 

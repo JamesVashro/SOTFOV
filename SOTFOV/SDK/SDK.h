@@ -641,6 +641,7 @@ public:
 		static auto ptr = UObject::FindClass("Class Engine.PlayerController");
 		return ptr;
 	}
+	void FOV(float NewFoV);
 };
 
 // Class Engine.Player

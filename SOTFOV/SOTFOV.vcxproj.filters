@@ -143,5 +143,8 @@
     <ClCompile Include="imgui\ImGuiFileBrowser.cpp">
       <Filter>Source Files\imgui</Filter>
     </ClCompile>
+    <ClCompile Include="ProcessEventHook.cpp">
+      <Filter>Source Files\hooking</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

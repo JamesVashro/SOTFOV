@@ -15,7 +15,11 @@
 #include <Windows.h>
 #include <Dbghelp.h>
 
+#include "HookLib.h"
 #pragma comment(lib, "libMinHook.x64.lib")
+#pragma comment(lib, "Zydis.lib")
+#pragma comment(lib, "HookLib.lib")
+
 
 FILE* f;
 bool ADSing = false;
@@ -26,6 +30,8 @@ auto vars = std::make_unique<frick::Vars>();
 
 void CleanupAndShutdown(HMODULE hModule) {
     MH_Uninitialize();
+    unhook((void*)frick::hooking->oProcessEvent);
+
 
     renderer.reset();
     hooking.reset();
@@ -111,6 +117,13 @@ void doThing(HMODULE hModule) {
         if (!frick::vars->localPlayer)
             return;
 
+        auto ViewportClient = frick::vars->localPlayer->ViewportClient;
+        if (!ViewportClient)
+            CleanupAndShutdown(hModule);
+
+        DWORD64** ProcessEvent = *(DWORD64***)(ViewportClient) + 55;
+        hooking->oProcessEvent = (frick::ProcessEvent)hook((void*)*ProcessEvent, frick::Hooks::ProcessEventHook);
+
         printf("Dereferenced World: %p\n", world);
     }
 
@@ -139,79 +152,82 @@ void doThing(HMODULE hModule) {
         if (!frick::vars->AACharacter)
             continue;
         
-        int result = (int)frick::vars->playerCharacter->GetTargetFOV(frick::vars->AACharacter);
-        
-        if (frick::vars->AACharacter->IsMounted == 69) {
-            if (frick::vars->isOnCannon || frick::vars->isOnMap) {
-                frick::vars->isOnCannon = false;
-                frick::vars->isOnMap = false;
-                frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->FOV);
-                continue;
-            }
+        if (!frick::vars->noZoom)
+        {
+            int result = (int)frick::vars->playerCharacter->GetTargetFOV(frick::vars->AACharacter);
 
-            goto SetFOV;
-        }
-        else if (frick::vars->AACharacter->IsMounted == 77) {
-            if (frick::vars->AACharacter->AttachmentReplication.AttachComponent->GetName() == "TableMesh") {
-                frick::vars->isOnMap = true;
+            if (frick::vars->AACharacter->IsMounted == 69) {
+                if (frick::vars->isOnCannon || frick::vars->isOnMap) {
+                    frick::vars->isOnCannon = false;
+                    frick::vars->isOnMap = false;
+                    frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->FOV);
+                    continue;
+                }
 
                 goto SetFOV;
             }
-        }
+            else if (frick::vars->AACharacter->IsMounted == 77) {
+                if (frick::vars->AACharacter->AttachmentReplication.AttachComponent->GetName() == "TableMesh") {
+                    frick::vars->isOnMap = true;
 
-        if (frick::vars->AACharacter->IsMounted == 79 && !frick::vars->isOnCannon) {
-            frick::vars->isOnCannon = true;
-            frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->cannonFOV);
-            continue;
-        }
+                    goto SetFOV;
+                }
+            }
 
-
-    SetFOV:
-        if (frick::vars->isOnMap) {
-            if (frick::vars->mapFOV)
-                frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, 89.f);
-            else
-                frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->FOV);
-
-            continue;
-        }
-
-        if (result == 90) {
-            frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->sprintingFOV);
-            continue;
-        }
-
-        if (result == 78 || result == 73 || result == 67) {
-            if (frick::vars->isOnCannon)
+            if (frick::vars->AACharacter->IsMounted == 79 && !frick::vars->isOnCannon) {
+                frick::vars->isOnCannon = true;
                 frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->cannonFOV);
-            else
-                frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->FOV);
+                continue;
+            }
 
-            continue;
-        }
 
-        if (result == 60) {
-            if (frick::vars->isOnCannon)
-                frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->cannonFOVads);
-            else
-                frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->pistolFOV);
+        SetFOV:
+            if (frick::vars->isOnMap) {
+                if (frick::vars->mapFOV)
+                    frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, 89.f);
+                else
+                    frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->FOV);
 
-            continue;
-        }
+                continue;
+            }
 
-        if (result == 30) {
-            frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->sniperFOV);
-            continue;
-        }
+            if (result == 90) {
+                frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->sprintingFOV);
+                continue;
+            }
 
-        if (result == 17) {
-            frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->spyGlassFOV);
-            continue;
-        }
+            if (result == 78 || result == 73 || result == 67) {
+                if (frick::vars->isOnCannon)
+                    frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->cannonFOV);
+                else
+                    frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->FOV);
 
-        if (result == 70) {
-            frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->blunderFOV);
-            continue;
+                continue;
+            }
+
+            if (result == 60) {
+                if (frick::vars->isOnCannon)
+                    frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->cannonFOVads);
+                else
+                    frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->pistolFOV);
+
+                continue;
+            }
+
+            if (result == 30) {
+                frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->sniperFOV);
+                continue;
+            }
+
+            if (result == 17) {
+                frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->spyGlassFOV);
+                continue;
+            }
+
+            if (result == 70) {
+                frick::vars->playerCharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->blunderFOV);
+                continue;
+            }
         }
     }
     CleanupAndShutdown(hModule);

@@ -8,6 +8,7 @@
 
 namespace frick {
 	typedef HRESULT(__stdcall* ID3DPresent)(IDXGISwapChain* this_, UINT sync, UINT flags);
+	typedef void(__stdcall* ProcessEvent)(void* obj, UFunction* func, void* params);
 	typedef HCURSOR(__stdcall* Set_Cursor)(HCURSOR hCursor);
 	typedef void(__stdcall* PostRender)(UCanvas* canvas);
 

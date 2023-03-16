@@ -121,3 +121,26 @@ class AActor* AActor::GetAttachParentActor()
 
 	return params.ReturnValue;
 }
+
+// Function Engine.PlayerController.FOV
+// (Exec, Native, Public)
+// Parameters:
+// float                          NewFOV                         (Parm, ZeroConstructor, IsPlainOldData)
+
+void APlayerController::FOV(float NewFOV)
+{
+	static auto fn = UObject::FindObject<UFunction>("Function Engine.PlayerController.FOV");
+
+	struct
+	{
+		float NewFOV;
+	} params;
+	params.NewFOV = NewFOV;
+
+	auto flags = fn->FunctionFlags;
+	fn->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(this, fn, &params);
+
+	fn->FunctionFlags = flags;
+}

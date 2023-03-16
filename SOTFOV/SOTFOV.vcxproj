@@ -192,6 +192,7 @@
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="menu\menu.cpp" />
     <ClCompile Include="PresentHook.cpp" />
+    <ClCompile Include="ProcessEventHook.cpp" />
     <ClCompile Include="renderer\Renderer.cpp" />
     <ClCompile Include="SDK.cpp" />
     <ClCompile Include="SetCursorHook.cpp" />

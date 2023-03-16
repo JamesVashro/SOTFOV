@@ -224,19 +224,26 @@ namespace frick {
             ImGui::Text("FOV");
             ImGui::SameLine(125);
             if (ImGui::LineSliderFloat("##FOV", &vars->FOV, 0.f, 180.f, 1)) {
-                if ((int)vars->FOV - 13 == 60 || (int)vars->FOV - 13 == 30 || (int)vars->FOV - 13 == 17 || (int)vars->FOV - 13 == 70 || (int)vars->FOV - 13 == 90)
-                    vars->FOV++;
+                if (vars->noZoom)
+                {
+                    vars->localPlayer->PlayerController->FOV(vars->FOV);
+                }
+                else
+                {
+                    if ((int)vars->FOV - 13 == 60 || (int)vars->FOV - 13 == 30 || (int)vars->FOV - 13 == 17 || (int)vars->FOV - 13 == 70 || (int)vars->FOV - 13 == 90)
+                        vars->FOV++;
 
-                vars->playerCharacter->SetTargetFOV(vars->AACharacter, vars->FOV);
+                    vars->playerCharacter->SetTargetFOV(vars->AACharacter, vars->FOV);
 
-                if (vars->linked) {
-                    vars->sniperFOV = vars->FOV - 55.f;
-                    vars->pistolFOV = vars->FOV - 23.f;
-                    vars->blunderFOV = vars->FOV;
-                    vars->spyGlassFOV = vars->FOV - 77.f;
-                    vars->sprintingFOV = vars->FOV + 10.f;
-                    vars->cannonFOVads = vars->FOV - 23.f;
-                    vars->cannonFOV = vars->FOV;
+                    if (vars->linked) {
+                        vars->sniperFOV = vars->FOV - 55.f;
+                        vars->pistolFOV = vars->FOV - 23.f;
+                        vars->blunderFOV = vars->FOV;
+                        vars->spyGlassFOV = vars->FOV - 77.f;
+                        vars->sprintingFOV = vars->FOV + 10.f;
+                        vars->cannonFOVads = vars->FOV - 23.f;
+                        vars->cannonFOV = vars->FOV;
+                    }
                 }
             }
 
@@ -247,6 +254,12 @@ namespace frick {
                 if (vars->isOnMap && !vars->mapFOV)
                     vars->AACharacter->SetTargetFOV(vars->AACharacter, vars->FOV);
             }
+
+            if (ImGui::CheckboxSlider("No-Zoom", &vars->noZoom))
+            {
+                vars->localPlayer->PlayerController->FOV(vars->FOV);
+            }
+
             if (ImGui::CollapsingHeader("Extras")) {
                 ImGui::Text("Sprinting FOV");
                 ImGui::SameLine(125);
