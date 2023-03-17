@@ -61,8 +61,9 @@ namespace frick {
 
 			static inline	bool							performance = false;
 
+			static inline	bool							HasNamesAndObjectsLoaded = false;
+
 			static inline	UWorld**						GWorld = nullptr;
-			static inline	ACharacter*						playerCharacter{};
 			static inline	AAthenaPlayerCharacter*			AACharacter{};
 			static inline	ULocalPlayer*					localPlayer{};
 

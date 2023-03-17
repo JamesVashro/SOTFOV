@@ -2,7 +2,9 @@
 
 namespace frick {
     void Menu::Init() {
-        //std::cout << "Menu Init" << std::endl;
+        if (!vars->HasNamesAndObjectsLoaded)
+            return;
+
         char path[MAX_PATH];
 
         if (GetModuleFileName(vars->hModule, path, sizeof(path)) == 0) {
@@ -180,7 +182,7 @@ namespace frick {
                     }
 
                         
-                    vars->playerCharacter->SetTargetFOV(vars->AACharacter, vars->FOV);
+                    vars->AACharacter->SetTargetFOV(vars->AACharacter, vars->FOV);
                 }
 
                 vars->cfgFile.close();
@@ -233,7 +235,7 @@ namespace frick {
                     if ((int)vars->FOV - 13 == 60 || (int)vars->FOV - 13 == 30 || (int)vars->FOV - 13 == 17 || (int)vars->FOV - 13 == 70 || (int)vars->FOV - 13 == 90)
                         vars->FOV++;
 
-                    vars->playerCharacter->SetTargetFOV(vars->AACharacter, vars->FOV);
+                    vars->AACharacter->SetTargetFOV(vars->AACharacter, vars->FOV);
 
                     if (vars->linked) {
                         vars->sniperFOV = vars->FOV - 55.f;
@@ -304,7 +306,7 @@ namespace frick {
                     if ((int)vars->cannonFOV - 13 == 60 || (int)vars->cannonFOV - 13 == 30 || (int)vars->cannonFOV - 13 == 17 || (int)vars->cannonFOV - 13 == 70 || (int)vars->cannonFOV - 13 == 73 || (int)vars->cannonFOV - 13 == 78 || (int)vars->cannonFOV - 13 == 90)
                         vars->cannonFOV++;
                     if (vars->isOnCannon)
-                        vars->playerCharacter->SetTargetFOV(vars->AACharacter, vars->cannonFOV);
+                        vars->AACharacter->SetTargetFOV(vars->AACharacter, vars->cannonFOV);
                 }
             }
             ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0, 0, 0, 255));
@@ -321,7 +323,7 @@ namespace frick {
                 vars->linked = false;
                 vars->mapFOV = vars->default_MapFOV;
 
-                vars->playerCharacter->SetTargetFOV(vars->AACharacter, vars->FOV);
+                vars->AACharacter->SetTargetFOV(vars->AACharacter, vars->FOV);
             }
 
             ImGui::SameLine();

@@ -14,7 +14,6 @@ namespace frick {
 		spyGlassFOV = 28.f;
 
 		GWorld = nullptr;
-		playerCharacter = nullptr;
 		AACharacter = nullptr;
 		localPlayer = nullptr;
 	}

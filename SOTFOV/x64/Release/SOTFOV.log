@@ -1,9 +1,8 @@
-﻿  menu.cpp
+﻿  dllmain.cpp
 LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
   Generating code
-  1 of 2210 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+  4 of 2158 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    23 functions had inline decision re-evaluated but remain unchanged
+    25 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-HookLib.lib(HookLib.obj) : warning LNK4099: PDB '' was not found with 'HookLib.lib(HookLib.obj)' or at ''; linking object as if no debug info
   SOTFOV.vcxproj -> D:\Visual Studios Projects\SOTFOV Current Release\x64\Release\SOTFOV.dll
