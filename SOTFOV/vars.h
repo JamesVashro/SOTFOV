@@ -65,13 +65,15 @@ namespace frick {
 
 			static inline	UWorld**						GWorld = nullptr;
 			static inline	AAthenaPlayerCharacter*			AACharacter{};
-			static inline	ULocalPlayer*					localPlayer{};
+			static inline	ULocalPlayer*					localPlayerdate {};
 
 			static inline	bool							Loading = false;
 
 			static inline	ABP_Cannon_C*					AttachedCannon{};
 			static inline	AActor*							HeldItem{};
 			static inline	std::string						HeldItemName = "";
+
+			static inline ULocalPlayer* localPlayer = nullptr;
 
 			static inline float curFOV = 0.f;
 	};

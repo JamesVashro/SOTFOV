@@ -31,9 +31,17 @@ auto vars = std::make_unique<frick::Vars>();
 void CleanupAndShutdown(HMODULE hModule) {
     MH_Uninitialize();
 
+    if (f)
+    {
+        FreeConsole();
+        fclose(f);
+    }
+
     renderer.reset();
     hooking.reset();
     vars.reset();
+
+    
 
     CloseHandle(hModule);
     FreeLibraryAndExitThread(hModule, 0);
@@ -118,13 +126,11 @@ void doThing(HMODULE hModule) {
         if (!players.Data)
             CleanupAndShutdown(hModule);
 
-
-        frick::vars->localPlayer = world->OwningGameInstance->LocalPlayers[0];
-
-        if (!frick::vars->localPlayer)
+        vars->localPlayer = world->OwningGameInstance->LocalPlayers[0];
+        if (!vars->localPlayer)
             CleanupAndShutdown(hModule);
 
-        auto ViewportClient = frick::vars->localPlayer->ViewportClient;
+        auto ViewportClient = vars->localPlayer->ViewportClient;
         if (!ViewportClient)
             CleanupAndShutdown(hModule);
 
@@ -153,16 +159,17 @@ void doThing(HMODULE hModule) {
         if (frick::vars->performance)
             std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
-        if (!frick::vars->localPlayer->PlayerController)
+       
+        if (!vars->localPlayer->PlayerController)
             continue;
 
-        if (!frick::vars->localPlayer->PlayerController->Character) {
+        if (!vars->localPlayer->PlayerController->Character) {
             frick::vars->isOnCannon = false;
             frick::vars->isOnMap = false;
             continue;
         }
         
-        frick::vars->AACharacter = (AAthenaPlayerCharacter*)frick::vars->localPlayer->PlayerController->Character;
+        frick::vars->AACharacter = (AAthenaPlayerCharacter*)vars->localPlayer->PlayerController->Character;
 
         if (!frick::vars->AACharacter)
             continue;
@@ -171,7 +178,7 @@ void doThing(HMODULE hModule) {
         {
             int result = (int)frick::vars->AACharacter->GetTargetFOV(frick::vars->AACharacter);
 
-            if (frick::vars->AACharacter->IsMounted == 69) {
+            if (frick::vars->AACharacter->IsMounted == 197) {
                 if (frick::vars->isOnCannon || frick::vars->isOnMap) {
                     frick::vars->isOnCannon = false;
                     frick::vars->isOnMap = false;
@@ -181,7 +188,7 @@ void doThing(HMODULE hModule) {
 
                 goto SetFOV;
             }
-            else if (frick::vars->AACharacter->IsMounted == 77) {
+            else if (frick::vars->AACharacter->IsMounted == 205) {
                 if (frick::vars->AACharacter->AttachmentReplication.AttachComponent->GetName() == "TableMesh") {
                     frick::vars->isOnMap = true;
 
@@ -189,7 +196,7 @@ void doThing(HMODULE hModule) {
                 }
             }
 
-            if (frick::vars->AACharacter->IsMounted == 79 && !frick::vars->isOnCannon) {
+            if (frick::vars->AACharacter->IsMounted == 207 && !frick::vars->isOnCannon) {
                 frick::vars->isOnCannon = true;
                 frick::vars->AACharacter->SetTargetFOV(frick::vars->AACharacter, frick::vars->cannonFOV);
                 continue;

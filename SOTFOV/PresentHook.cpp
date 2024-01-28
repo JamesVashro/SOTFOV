@@ -11,7 +11,7 @@
 
 namespace frick {
 	HRESULT Hooks::PresentHook(IDXGISwapChain* __this, UINT sync, UINT flags) {
-		if (!menu.initialized) {
+		if (!menu.initialized && vars->HasNamesAndObjectsLoaded) {
 
 			//For some reason this needs to be here. if this line is not here the FOV works but the menu never gets initialized... beats me as to why but it is what it is
 			std::cout << "Menu not initialized" << std::endl;
@@ -69,7 +69,7 @@ namespace frick {
 
 			hooking->original_wndproc = reinterpret_cast<WNDPROC>(SetWindowLongPtr(renderer->window, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndProc_Hook)));
 
-			menu.initialized = true;
+			
 		}
 
 		if (menu.opened) {

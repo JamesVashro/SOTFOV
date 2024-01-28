@@ -2,8 +2,7 @@
 
 namespace frick {
     void Menu::Init() {
-        if (!vars->HasNamesAndObjectsLoaded)
-            return;
+        printf("Initializing menu\n");
 
         char path[MAX_PATH];
 
@@ -17,11 +16,13 @@ namespace frick {
 
         temp = fPath.substr(0, posEnd);
 
+        
         std::replace(temp.begin(), temp.end(), '\\', '/');
         vars->cfgFileDir = temp;
 
         vars->cfgFile.open(vars->cfgFileDir + "Default.txt", std::ios::in);
         if (vars->cfgFile.is_open()) {
+
             std::string line;
             while (std::getline(vars->cfgFile, line)) {
                 if (line.find("Normal") != std::string::npos) {
@@ -259,7 +260,11 @@ namespace frick {
 
             if (ImGui::CheckboxSlider("No-Zoom", &vars->noZoom))
             {
-                vars->localPlayer->PlayerController->FOV(vars->FOV);
+                if (!vars->noZoom)
+                    vars->localPlayer->PlayerController->FOV(0);
+                else
+                    vars->localPlayer->PlayerController->FOV(vars->FOV);
+
             }
 
             if (ImGui::CollapsingHeader("Extras")) {

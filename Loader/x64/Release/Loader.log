@@ -1,6 +1,7 @@
-﻿  Generating code
-  0 of 539 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+﻿  main.cpp
+  Generating code
+  2 of 540 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+    1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-  Loader.vcxproj -> D:\Visual Studios Projects\SOTFOV Current Release\x64\Release\Loader.exe
+  Loader.vcxproj -> F:\Visual Studios Projects\SOTFOV Current Release\x64\Release\Loader.exe
