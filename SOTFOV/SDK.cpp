@@ -48,24 +48,18 @@ bool UObject::IsA(std::string cmp) const
 }
 
 
-bool InitializeNames() {
-	static BYTE sig[] = { 0x48, 0x8B, 0x1D, 0x00, 0x00, 0x00, 0x00, 0x48, 0x85, 0xDB, 0x75, 0x3D };
-	GNames = *reinterpret_cast<TNameEntryArray**>(FindPointer(sig, sizeof(sig)));
-	std::cout << "GNames: " << GNames << std::endl;
+bool InitializeNames() 
+{
+	static BYTE sig[] = { 0x48, 0x8B, 0x3D, 0x00, 0x00, 0x00, 0x00, 0x48, 0x85, 0x00, 0x75, 0x4A };
 
-	if (GNames)
-		return true;
-
-	return false;
+	GNames = *(TNameEntryArray**)FindPointer(sig, sizeof(sig));
+	printf("GNames: %p\n", GNames);
+	return GNames != nullptr;
 }
-bool InitializeObjects() {
-	static BYTE sig[] = { 0x48, 0x8D, 0x0D, 0x00, 0x00, 0x00, 0x00, 0xE8, 0x00, 0x00, 0x00, 0x00, 0x48, 0x89, 0x5D, 0xB0 };
-	GObjects = reinterpret_cast<FUObjectArray*>(FindPointer(sig, sizeof(sig)));
-	std::cout << "GObjects: " << GObjects << std::endl;
-	if (GObjects)
-		return true;
-
-	return false;
+bool InitializeObjects() 
+{
+	GObjects = (TUObjectArray*)((uintptr_t)getModuleInfo(NULL).lpBaseOfDll + 0x806d798);
+	return GObjects != nullptr;
 }
 
 float ACharacter::GetTargetFOV(class AAthenaPlayerCharacter* Character) {

@@ -172,7 +172,7 @@ public:
 	TUObjectArray ObjObjects; //0x0010
 };
 
-static FUObjectArray* GObjects = nullptr;
+static TUObjectArray* GObjects = nullptr;
 
 class UClass;
 // Class CoreUObject.Object
@@ -187,9 +187,9 @@ public:
 	struct FName                                       Name;                // 0x0000(0x0000) NOT AUTO-GENERATED PROPERTY
 	class UObject* Outer;               // 0x0000(0x0000) NOT AUTO-GENERATED PROPERTY
 
-	static inline TUObjectArray& GetGlobalObjects()
+	static inline TUObjectArray GetGlobalObjects()
 	{
-		return GObjects->ObjObjects;
+		return *GObjects;
 	}
 
 	std::string GetName() const;
